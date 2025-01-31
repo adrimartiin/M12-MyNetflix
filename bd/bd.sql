@@ -10,7 +10,7 @@ CREATE TABLE tbl_roles (
 -- Tabla de usuarios
 CREATE TABLE tbl_usuarios (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    nombre VARCHAR(100) NOT NULL,
+    nombre_usuario VARCHAR(100) NOT NULL,
     email VARCHAR(255) UNIQUE NOT NULL,
     password_hash VARCHAR(255) NOT NULL,
     rol_id INT NOT NULL,
@@ -49,3 +49,28 @@ ALTER TABLE tbl_usuarios ADD CONSTRAINT fk_usuarios_rol FOREIGN KEY (rol_id) REF
 ALTER TABLE tbl_likes ADD CONSTRAINT fk_likes_usuario FOREIGN KEY (id_usuario) REFERENCES tbl_usuarios(id) ON DELETE CASCADE;
 ALTER TABLE tbl_likes ADD CONSTRAINT fk_likes_pelicula FOREIGN KEY (id_pelicula) REFERENCES tbl_peliculas(id) ON DELETE CASCADE;
 ALTER TABLE tbl_registros_pendientes ADD CONSTRAINT fk_registros_usuario FOREIGN KEY (id_usuario) REFERENCES tbl_usuarios(id) ON DELETE CASCADE;
+
+-- Insertar roles
+INSERT INTO tbl_roles (nombre) VALUES ('admin'), ('usuario');
+
+-- Insertar usuarios
+INSERT INTO tbl_usuarios (nombre_usuario, email, password_hash, rol_id, estado) VALUES
+('Usuario Administrador', 'admin@netflix.com', 'contraseña_cifrada_1', 1, 'activo'),
+('Usuario Uno', 'usuario1@netflix.com', 'contraseña_cifrada_2', 2, 'activo'),
+('Usuario Dos', 'usuario2@netflix.com', 'contraseña_cifrada_3', 2, 'pendiente');
+
+-- Insertar películas
+INSERT INTO tbl_peliculas (titulo, descripcion, director, año, imagen, likes) VALUES
+('El Origen', 'Un ladrón que roba secretos...', 'Christopher Nolan', 2010, 'el_origen.jpg', 0),
+('La Matrix', 'Un hacker descubre la verdad...', 'Lana Wachowski, Lilly Wachowski', 1999, 'la_matrix.jpg', 0),
+('Interestelar', 'Un viaje más allá de las estrellas...', 'Christopher Nolan', 2014, 'interestelar.jpg', 0);
+
+-- Insertar likes
+INSERT INTO tbl_likes (id_usuario, id_pelicula) VALUES
+(2, 1), -- Usuario Uno da like a El Origen
+(2, 2), -- Usuario Uno da like a La Matrix
+(3, 1); -- Usuario Dos da like a El Origen
+
+-- Insertar registros pendientes
+INSERT INTO tbl_registros_pendientes (id_usuario) VALUES
+(3); -- Usuario Dos está pendiente de aprobación
