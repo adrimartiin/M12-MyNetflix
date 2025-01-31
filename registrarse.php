@@ -5,13 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./css/style-form.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <title>Login</title>
+    <title>Registrarse</title>
 </head>
 <body class="vh-100 vw-100">
     <div class="container-fluid d-flex justify-content-center align-items-center vh-100">
         <div class="row w-100">
             <div class="col-6 d-flex justify-content-center align-items-center">
-                <img src="./img/logo.png" alt="Logo" class="img-fluid">
+                <img src="./img/logo.png" alt="asdasd" class="img-fluid">
             </div>
             <div class="col-6 justify-content-center align-items-center d-flex">
                 <div style="width: 80%;">
@@ -26,10 +26,8 @@
                             <input type="password" id="password" name="password" class="form-control">
                         </div>
                         <div class="d-grid">
-                            <button type="submit" class="btn-login" name="login" id="login">Login</button>
+                            <button type="submit" class="btn-login" name="registrarse" id="registrarse">Registrarse</button>
                         </div>
-                        <!-- Enlace para crear cuenta -->
-                        <a href="registrarse.php" class="link-crear-cuenta">Crear cuenta</a>
                     </form>
                 </div>
             </div>
@@ -37,5 +35,4 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-</html>
 </html>
