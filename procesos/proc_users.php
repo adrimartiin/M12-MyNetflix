@@ -8,13 +8,13 @@ $stmt = $conexion->prepare($query);
 $stmt->execute();
 $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC); // Convertir array de resultado de la consulta en array asociativo
 
-// Mostrar resultados
+// Mostrar resultados saneados
 foreach ($resultados as $resultado) {
     echo "<tr>";
-    echo "<td>" . $resultado['nombre_usuario'] . "</td>";
-    echo "<td>" . $resultado['email'] . "</td>";
-    echo "<td>" . $resultado['fecha_registro'] . "</td>";
-    echo "<td>" . ucfirst($resultado['nombre']) . "</td>";
+    echo "<td>" . htmlspecialchars($resultado['nombre_usuario']) . "</td>";
+    echo "<td>" . htmlspecialchars($resultado['email']) . "</td>";
+    echo "<td>" . htmlspecialchars($resultado['fecha_registro']) . "</td>";
+    echo "<td>" . htmlspecialchars(ucfirst($resultado['nombre'])) . "</td>";
     echo '<td class="text-center">
             <div class="d-flex justify-content-center">
                 <div class="form-check form-switch">
