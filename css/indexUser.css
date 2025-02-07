@@ -1,8 +1,21 @@
-body{
+body {
+    height: 100vh;
+    margin: 0;
     background-color: #151414 !important;
-    color: white !important;
     font-family: Arial, sans-serif;
 }
+.peliculas-div {
+    height: 300px;  
+}
+#myCarousel {
+    height: 600px; /* Ajusta la altura según necesites */
+  }
+  
+#myCarousel .carousel-inner,
+#myCarousel .carousel-item {
+height: 100%;
+}
+  
 .btn-login {
     background-color: #151414;
     border: 1px solid #B5ADAD;
@@ -23,17 +36,6 @@ body{
     background-color: #555;
     transform: scale(0.98);
 }
-.link-crear-cuenta {
-    display: block;
-    text-align: center;
-    margin-top: 15px;
-    color: #B5ADAD;
-    font-size: 18px;
-    text-decoration: none;
-    transition: color 0.3s ease-in-out;
-}
-
-.link-crear-cuenta:hover {
-    color: #fff;
-    text-decoration: underline;
+.navbar-brand img {
+    height: 50px;
 }
