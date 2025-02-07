@@ -39,7 +39,7 @@
             </tr>
         </thead>
         <tbody class="table_body">
-            <?php include '../procesos/proc_users.php'; ?>
+            <?php include '../procesos/proc_users.php';?>
         </tbody>
     </table>
 
