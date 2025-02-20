@@ -1,6 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,7 +15,7 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
-                <form class="d-flex" role="search">
+                <form class="d-flex" role="search" method="POST">
                     <div class="input-group">
                         <span class="input-group-text"><i class="fas fa-search"></i></span>
                         <input class="form-control search-input" id="search" type="search" placeholder="Buscar..." aria-label="Search">
@@ -38,8 +35,8 @@
                 <th>Acciones (Habilitar/Deshabilitar)</th>
             </tr>
         </thead>
-        <tbody class="table_body">
-            <?php include '../procesos/proc_users.php';?>
+        <tbody class="table_body"  id="tabla-resultados">
+
         </tbody>
     </table>
 
