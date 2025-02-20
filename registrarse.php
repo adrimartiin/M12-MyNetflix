@@ -16,7 +16,7 @@
             <div class="col-6 justify-content-center align-items-center d-flex">
                 <div style="width: 80%;">
                     <h3 class="text-center mb-4">Crear cuenta</h3>
-                    <form action="insert-registro.php" method="post" id="registrationForm">
+                    <form action="./procesos/insert-registro.php" method="post" id="registrationForm">
                         <div class="mb-2">
                             <label for="usuario" class="form-label">Usuario:</label>
                             <input type="text" id="usuario" name="usuario" class="form-control">
