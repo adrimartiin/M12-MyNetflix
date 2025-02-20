@@ -1,5 +1,6 @@
 <?php
   require_once './bd/conexion.php';
+  session_start();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -21,9 +22,17 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
-                <div class="d-flex">
-                    <a class="btn-login text-decoration-none" href="./login.php">Iniciar sesión</a>
-                </div>
+            <?php
+                if (isset($_SESSION['nombre_usuario'])) {
+                    echo '<div class="d-flex">
+                            <a class="btn-login text-decoration-none" href="./procesos/logout.php">Cerrar sesión</a>
+                        </div>';
+                } else {
+                    echo '<div class="d-flex">
+                        <a class="btn-login text-decoration-none" href="./login.php">Iniciar sesión</a>
+                    </div>';
+                }
+            ?>
             </div>
         </div>
     </nav>
