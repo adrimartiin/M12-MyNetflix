@@ -16,7 +16,7 @@
                 <img src="../img/crud_admin_usrs.png" alt="" id="comedor">
                 <div class="text-overlay">Usuarios</div>
             </a>
-            <a class="image-container" href="./seleccionar_sala?categoria=Privada">
+            <a class="image-container" href="./gest_films.php">
                 <img src="../img/crud_admin_films.png" alt="" id="privada">
                 <div class="text-overlay">Películas</div>
             </a>
