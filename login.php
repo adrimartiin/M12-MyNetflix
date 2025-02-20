@@ -16,7 +16,7 @@
             <div class="col-6 justify-content-center align-items-center d-flex">
                 <div style="width: 80%;">
                     <h3 class="text-center mb-4">Iniciar Sesión</h3>
-                    <form action="" method="post" id="formulario-login">
+                    <form action="./procesos/login_verificacion.php" method="post" id="formulario-login">
                         <div class="mb-3">
                             <label for="usuario" class="form-label">Usuario:</label>
                             <input type="text" id="usuario-login" name="usuario-login" class="form-control">
@@ -26,7 +26,7 @@
                             <input type="password" id="password-login" name="password-login" class="form-control">
                         </div>
                         <div class="d-grid">
-                            <button type="submit" class="btn-login" name="login" id="login">Login</button>
+                            <button type="submit" class="btn-login" name="btn_login" id="login">Login</button>
                         </div>
                         <p id="error-form" class="error"></p>
                         <!-- Enlace para crear cuenta -->
@@ -39,5 +39,4 @@
     <script src="./js/login.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-</html>
 </html>

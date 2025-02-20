@@ -61,15 +61,15 @@ INSERT INTO tbl_roles (nombre) VALUES ('admin'), ('usuario');
 
 -- Insertar usuarios
 INSERT INTO tbl_usuarios (nombre_usuario, email, password_hash, rol_id, estado) VALUES
-('Usuario Administrador', 'admin@netflix.com', 'contraseña_cifrada_1', 1, 'activo'),
-('Usuario Uno', 'usuario1@netflix.com', 'contraseña_cifrada_2', 2, 'activo'),
-('Usuario Dos', 'usuario2@netflix.com', 'contraseña_cifrada_3', 2, 'pendiente');
+('Usuario Administrador', 'admin@netflix.com', '$2y$10$Z5U9.7bBJB1nF7U0wmlPc.uSQ9hJv4K6TksO0nC8bxGcQ750bjPzi', 1, 'activo'),
+('Usuario Uno', 'usuario1@netflix.com', '$2y$10$meykvSqT7EkSzWxFmQnfyuleoO9AbiMOgm5HvUxMqQtZQT4q3m5Dm', 2, 'activo'),
+('Usuario Dos', 'usuario2@netflix.com', '$2y$10$zAvIjfz8KsvWLZZ5ERg58.PzcYw7.jlIYMTfWIFvT3GRoJmBDJV.6', 2, 'pendiente');
 
 -- Insertar películas
 INSERT INTO tbl_peliculas (titulo, descripcion, director, ano, imagen, likes) VALUES
-('El Origen', 'Un ladrón que roba secretos...', 'Christopher Nolan', 2010, 'el_origen.jpg', 0),
-('La Matrix', 'Un hacker descubre la verdad...', 'Lana Wachowski, Lilly Wachowski', 1999, 'la_matrix.jpg', 0),
-('Interestelar', 'Un viaje más allá de las estrellas...', 'Christopher Nolan', 2014, 'interestelar.jpg', 0);
+('El Origen', 'Un ladrón que roba secretos...', 'Christopher Nolan', 2010, 'el_origen.jpg', 4),
+('La Matrix', 'Un hacker descubre la verdad...', 'Lana Wachowski, Lilly Wachowski', 1999, 'la_matrix.jpg', 5),
+('Interestelar', 'Un viaje más allá de las estrellas...', 'Christopher Nolan', 2014, 'interestelar.jpg', 6);
 
 -- Insertar likes
 INSERT INTO tbl_likes (id_usuario, id_pelicula) VALUES
