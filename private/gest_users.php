@@ -31,7 +31,6 @@
                 <th>Usuario</th>
                 <th>Email</th>
                 <th>Fecha de Registro</th>
-                <th>Rol</th>
                 <th>Acciones (Habilitar/Deshabilitar)</th>
             </tr>
         </thead>
