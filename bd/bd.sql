@@ -67,9 +67,9 @@ INSERT INTO tbl_usuarios (nombre_usuario, email, password_hash, rol_id, estado) 
 
 -- Insertar películas
 INSERT INTO tbl_peliculas (titulo, descripcion, director, ano, imagen, likes) VALUES
-('El Origen', 'Un ladrón que roba secretos...', 'Christopher Nolan', 2010, 'el_origen.jpg', 0),
-('La Matrix', 'Un hacker descubre la verdad...', 'Lana Wachowski, Lilly Wachowski', 1999, 'la_matrix.jpg', 0),
-('Interestelar', 'Un viaje más allá de las estrellas...', 'Christopher Nolan', 2014, 'interestelar.jpg', 0);
+('El Origen', 'Un ladrón que roba secretos...', 'Christopher Nolan', 2010, 'el_origen.jpg', 4),
+('La Matrix', 'Un hacker descubre la verdad...', 'Lana Wachowski, Lilly Wachowski', 1999, 'la_matrix.jpg', 5),
+('Interestelar', 'Un viaje más allá de las estrellas...', 'Christopher Nolan', 2014, 'interestelar.jpg', 6);
 
 -- Insertar likes
 INSERT INTO tbl_likes (id_usuario, id_pelicula) VALUES
