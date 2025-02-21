@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin - Index</title>
     <link rel="stylesheet" href="../css/indexAdmin.css"> 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 </head>
 
 <body>
@@ -23,7 +24,7 @@
         </section>
     </div>
 </body>
-
+<script src="../js/sweetalert.js"></script>
 </html>
 
 
