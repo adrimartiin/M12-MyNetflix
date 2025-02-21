@@ -26,7 +26,7 @@ function ListaFilms() {
                 str += "<td>" + item.likes + "</td>";
                 str += "<td>";
                 str += " <button type='button' class='btn btn-success' onclick='Update(" + item.id_peli + ")'>Editar</button>";
-                str += " <button type='button' class='btn btn-danger' onclick='Eliminar(" + item.id_peli + ")'>Eliminar</button>";
+                str += ` <button type="button" class="btn btn-danger" onclick="Eliminar(${item.id_peli})">Eliminar</button>`;
                 str += "</td>";
                 str += "</tr>";
                 tabla += str;
@@ -128,55 +128,51 @@ function InsertFilm() {
 }
 
 // Eliminar
-// Eliminar
+// Eliminar// Eliminar
 function Eliminar(id) {
-    console.log('Intentando eliminar película con ID:', id); // Verificar si el ID se está pasando correctamente
-
+    console.log('Id de la pelicula: ' + id);
     Swal.fire({
         title: '¿Estás seguro?',
-        text: "No podrás revertir esto",
+        text: "Esta acción no se puede deshacer.",
         icon: 'warning',
         showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
         confirmButtonText: 'Sí, eliminar',
         cancelButtonText: 'Cancelar'
     }).then((result) => {
         if (result.isConfirmed) {
-            // Usando FormData para enviar el ID
-            const formData = new FormData();
-            formData.append('id', id); // Asegurar que el ID se envía correctamente
-
             fetch('../procesos/proc_deleteFilms.php', {
                 method: 'POST',
-                body: formData
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: `id=${id}`
             })
             .then(response => response.json())
             .then(data => {
-                console.log('Respuesta del servidor:', data); // Verificar la respuesta del servidor
                 if (data.success) {
                     Swal.fire({
                         icon: 'success',
-                        title: '¡Eliminado!',
-                        text: 'La película ha sido eliminada.',
+                        title: 'Película eliminada correctamente',
                         showConfirmButton: false,
                         timer: 1500
                     });
-                    ListaFilms(); // Actualiza la lista de películas
+                    ListaFilms(); // Actualizar la lista de películas
                 } else {
                     Swal.fire({
                         icon: 'error',
-                        title: 'Error',
-                        text: data.error || 'No se pudo eliminar la película.'
+                        title: 'Error al eliminar',
+                        text: data.error
                     });
                 }
             })
             .catch(error => {
-                console.error('Error en la petición fetch:', error);
+                console.error('Error:', error);
                 Swal.fire({
                     icon: 'error',
-                    title: 'Error',
-                    text: 'Ocurrió un problema al eliminar la película.'
+                    title: 'Error en la solicitud',
+                    text: 'No se pudo conectar con el servidor'
                 });
             });
         }
