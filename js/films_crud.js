@@ -196,8 +196,8 @@ function Update(id) {
             Swal.fire({
                 title: 'Editar Película',
                 html: `
-                    <form id="editarForm" style="display: flex; flex-direction: column; gap: 10px; align-items: center; width: 100%;">
-                        <input type="hidden" id="id" value="${film.id_peli}">
+                    <form id="editarForm" method="POST" style="display: flex; flex-direction: column; gap: 10px; align-items: center; width: 100%;">
+                        <input type="hidden" id="id" name="id" value="${film.id_peli}">
                         <div style="display: flex; flex-direction: column; align-items: center; width: 100%;">
                             <label for="titulo">Título:</label>
                             <input type="text" id="titulo" name="titulo" class="swal2-input" value="${film.titulo}" style="width: 85%; height: 35px; font-size: 16px;">

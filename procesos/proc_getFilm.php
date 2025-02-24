@@ -10,24 +10,23 @@ if (!isset($_GET['id'])) {
 
 $id = $_GET['id'];
 $query = "SELECT * FROM tbl_peliculas WHERE id_peli = ?";
-$stmt = $conn->prepare($query);
+$stmt = $conexion->prepare($query);
 
 if (!$stmt) {
     echo json_encode(['error' => 'Error en la preparación de la consulta']);
     exit;
 }
 
-$stmt->bind_param("i", $id);
+$stmt->bindParam(1, $id, PDO::PARAM_INT);
 $stmt->execute();
-$result = $stmt->get_result();
+$result = $stmt->fetch(PDO::FETCH_ASSOC);
 
-if ($result->num_rows > 0) {
-    $film = $result->fetch_assoc();
-    echo json_encode($film);
+if ($result) {
+    echo json_encode($result);
 } else {
     echo json_encode(['error' => 'Película no encontrada']);
 }
 
-$stmt->close();
-$conn->close();
+$stmt->closeCursor();
+$conexion = null;
 ?>
