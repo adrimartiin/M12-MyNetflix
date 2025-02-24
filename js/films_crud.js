@@ -112,7 +112,11 @@ function InsertFilm() {
                         showConfirmButton: false,
                         timer: 1500
                     });
-                    ListaFilms(); // Actualiza la lista de películas
+                    if (window.aplicarFiltros) {
+                        window.aplicarFiltros();
+                    } else {
+                        ListaFilms();
+                    }
                 })
                 .catch(error => {
                     console.error('Error:', error);
@@ -156,7 +160,11 @@ function Eliminar(id) {
                         showConfirmButton: false,
                         timer: 1500
                     });
-                    ListaFilms(); // Actualizar la lista de películas
+                    if (window.aplicarFiltros) {
+                        window.aplicarFiltros();
+                    } else {
+                        ListaFilms();
+                    }
                 } else {
                     Swal.fire({
                         icon: 'error',
@@ -179,7 +187,6 @@ function Eliminar(id) {
 
 // Editar 
 function Update(id) {
-    // Solicitar los datos de la película a editar
     fetch(`../procesos/proc_getFilm.php?id=${id}`)
         .then(response => {
             if (!response.ok) {
@@ -188,7 +195,6 @@ function Update(id) {
             return response.json();
         })
         .then(film => {
-            // Verificar si se obtuvo un error en la respuesta
             if (film.error) {
                 throw new Error(film.error);
             }
@@ -196,7 +202,7 @@ function Update(id) {
             Swal.fire({
                 title: 'Editar Película',
                 html: `
-                    <form id="editarForm" method="POST" style="display: flex; flex-direction: column; gap: 10px; align-items: center; width: 100%;">
+                    <form id="editarForm" method="POST" enctype="multipart/form-data" style="display: flex; flex-direction: column; gap: 10px; align-items: center; width: 100%;">
                         <input type="hidden" id="id" name="id" value="${film.id_peli}">
                         <div style="display: flex; flex-direction: column; align-items: center; width: 100%;">
                             <label for="titulo">Título:</label>
@@ -214,6 +220,15 @@ function Update(id) {
                             <label for="year">Año:</label>
                             <input type="number" id="year" name="year" class="swal2-input" value="${film.ano}" style="width: 85%; height: 35px; font-size: 16px;">
                         </div>
+                        <div style="display: flex; flex-direction: column; align-items: center; width: 100%;">
+                            <label for="imagen_actual">Imagen Actual:</label>
+                            <img src="../img/${film.imagen}" alt="Imagen actual" style="width: 150px; margin: 10px 0;">
+                            <input type="hidden" name="imagen_actual" value="${film.imagen}">
+                        </div>
+                        <div style="display: flex; flex-direction: column; align-items: center; width: 100%;">
+                            <label for="nueva_imagen">Nueva Imagen (opcional):</label>
+                            <input type="file" id="nueva_imagen" name="nueva_imagen" class="swal2-input" style="width: 85%; height: 35px; font-size: 16px;">
+                        </div>
                     </form>
                 `,
                 showCancelButton: true,
@@ -221,21 +236,24 @@ function Update(id) {
                 cancelButtonText: 'Cancelar',
                 preConfirm: () => {
                     const formData = new FormData(document.getElementById('editarForm'));
+                    
                     // Validación de campos
                     if (!formData.get('titulo') || !formData.get('descripcion') || !formData.get('director') || !formData.get('year')) {
                         Swal.showValidationMessage('Todos los campos son obligatorios');
                         return;
                     }
-                    // Enviar datos al servidor
+
                     return fetch('../procesos/proc_updateFilm.php', {
                         method: 'POST',
                         body: formData
-                    }).then(response => {
+                    })
+                    .then(response => {
                         if (!response.ok) {
                             throw new Error('Error al actualizar la película');
                         }
                         return response.json(); // Cambiado a JSON para manejar la respuesta
-                    }).then(data => {
+                    })
+                    .then(data => {
                         if (!data.success) {
                             throw new Error(data.error || 'Error desconocido al actualizar');
                         }
@@ -244,8 +262,12 @@ function Update(id) {
                 }
             }).then((result) => {
                 if (result.isConfirmed) {
-                    Swal.fire('Película actualizada correctamente');
-                    ListaFilms(); // Actualiza la lista de películas
+                    Swal.fire('Éxito', 'Película actualizada correctamente', 'success');
+                    if (window.aplicarFiltros) {
+                        window.aplicarFiltros();
+                    } else {
+                        ListaFilms();
+                    }
                 }
             }).catch(error => {
                 console.error('Error:', error);
@@ -257,6 +279,7 @@ function Update(id) {
             Swal.fire('Error', 'No se pudo obtener la película', 'error');
         });
 }
+
 
 
 
