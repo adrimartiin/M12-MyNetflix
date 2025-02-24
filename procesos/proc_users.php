@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $busqueda = isset($input['busqueda']) ? trim($input['busqueda']) : '';
 
     // Construimos la consulta base
-    $query = "SELECT id_usu, nombre_usuario, email, password_hash, fecha_registro, nombre 
+    $query = "SELECT id_usu, nombre_usuario, email, estado, fecha_registro, nombre AS rol 
               FROM tbl_usuarios 
               INNER JOIN tbl_roles ON tbl_usuarios.rol_id = tbl_roles.id_rol";
 
