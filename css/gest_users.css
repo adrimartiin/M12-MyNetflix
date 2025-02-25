@@ -90,3 +90,26 @@ table {
     border-color: #e50914;
     box-shadow: 0 0 0 0.2rem rgba(229, 9, 20, 0.25);
 }
+
+.navbar .filters-container {
+    background: none;
+    padding: 0;
+    margin: 0;
+}
+
+.navbar .input-group {
+    width: auto;
+    min-width: 200px;
+}
+
+#likes-order {
+    color: #e50914;
+}
+
+#likes-order:hover {
+    color: #ff0a16;
+}
+
+.fa-sort, .fa-sort-up, .fa-sort-down {
+    margin-left: 5px;
+}

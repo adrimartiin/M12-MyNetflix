@@ -32,8 +32,9 @@ try {
     }
     
     // Ordenar por likes si se especifica
-    if (isset($_GET['orderLikes']) && $_GET['orderLikes'] === 'desc') {
-        $query .= " ORDER BY likes DESC";
+    if (isset($_GET['orderLikes'])) {
+        $order = $_GET['orderLikes'] === 'asc' ? 'ASC' : 'DESC';
+        $query .= " ORDER BY likes " . $order;
     }
 
     // Preparar y ejecutar la consulta
