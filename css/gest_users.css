@@ -63,3 +63,30 @@ table {
 .form-check-input:focus {
     box-shadow: none !important;
 }
+
+.filters-container {
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 15px;
+    border-radius: 8px;
+    margin: 20px 0;
+}
+
+.input-group-text {
+    background-color: #e50914;
+    color: white;
+    border: none;
+}
+
+.form-control {
+    background-color: rgba(255, 255, 255, 0.9);
+}
+
+#likes-order.active {
+    background-color: #e50914;
+    color: white;
+}
+
+.input-group .form-control:focus {
+    border-color: #e50914;
+    box-shadow: 0 0 0 0.2rem rgba(229, 9, 20, 0.25);
+}

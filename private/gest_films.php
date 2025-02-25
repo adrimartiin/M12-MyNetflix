@@ -42,6 +42,28 @@
         </div>
     </nav>
     
+    <!-- Añadir después del botón "Añadir película" y antes de la tabla -->
+    <div class="filters-container d-flex justify-content-between align-items-center mb-3">
+        <div class="input-group me-2" style="max-width: 200px;">
+            <span class="input-group-text">Título</span>
+            <input type="text" id="titulo-filter" class="form-control" placeholder="Filtrar por título...">
+        </div>
+        
+        <div class="input-group me-2" style="max-width: 200px;">
+            <span class="input-group-text">Director</span>
+            <input type="text" id="director-filter" class="form-control" placeholder="Filtrar por director...">
+        </div>
+        
+        <div class="input-group me-2" style="max-width: 150px;">
+            <span class="input-group-text">Año</span>
+            <input type="number" id="ano-filter" class="form-control" placeholder="Año...">
+        </div>
+        
+        <button id="likes-order" class="btn btn-outline-primary">
+            <i class="fas fa-heart"></i> Ordenar por likes
+        </button>
+    </div>
+    
     <table class="mitabla">
         <thead class="table_head">
             <tr>
@@ -58,6 +80,7 @@
     </table>
     <script src="../js/films_crud.js"></script>
     <script src="../js/sweetalert.js"></script>
+    <script src="../js/filter_films.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
