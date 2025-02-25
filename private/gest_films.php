@@ -36,7 +36,7 @@
                         <input type="number" id="ano-filter" class="form-control" placeholder="Año...">
                     </div>
 
-                    <button class="btn btn-primary" type="button" id="crear">Añadir película</button>
+                    <button class="btn-login" type="button" id="crear">Añadir película</button>
                 </div>
             </div>
         </div>
