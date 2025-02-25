@@ -54,7 +54,20 @@ table {
 .table_body {
     background-color: #DB202C;
 }
+.btn-login {
+    background-color: #151414;
+    border: 1px solid #B5ADAD;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+}
 
+.btn-login:hover {
+    background-color: #DB202C;
+    border-color: #fff;
+}
 .form-check-input:checked {
     background-color: #000 !important;
     border-color: #000 !important;
@@ -62,4 +75,87 @@ table {
 
 .form-check-input:focus {
     box-shadow: none !important;
+}
+
+.filters-container {
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 15px;
+    border-radius: 8px;
+    margin: 20px 0;
+}
+
+.input-group-text {
+    background-color: #e50914;
+    color: white;
+    border: none;
+}
+
+.form-control {
+    background-color: rgba(255, 255, 255, 0.9);
+}
+
+#likes-order.active {
+    background-color: #e50914;
+    color: white;
+}
+
+.input-group .form-control:focus {
+    border-color: #e50914;
+    box-shadow: 0 0 0 0.2rem rgba(229, 9, 20, 0.25);
+}
+
+.navbar .filters-container {
+    background: none;
+    padding: 0;
+    margin: 0;
+}
+
+.navbar .input-group {
+    width: auto;
+    min-width: 200px;
+}
+
+#likes-order {
+    color: #e50914;
+}
+
+#likes-order:hover {
+    color: #ff0a16;
+}
+
+.fa-sort, .fa-sort-up, .fa-sort-down {
+    margin-left: 5px;
+}
+/* Estilo del botón de Editar (similar al de login) */
+.btn-edit {
+    background-color: #151414;
+    border: none;
+    color: #fff;
+    padding: 8px 15px;
+    border-radius: 5px;
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.btn-edit:hover {
+    background-color: #2c2c2c;
+    border-color: #fff;
+}
+
+/* Estilo del botón de Eliminar (más llamativo) */
+.btn-delete {
+    background-color: #B50000;
+    border: none;
+    color: #fff;
+    padding: 8px 15px;
+    border-radius: 5px;
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.btn-delete:hover {
+    background-color: #FF0A16;
+    border-color: #fff;
 }

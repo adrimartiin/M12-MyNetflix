@@ -26,9 +26,9 @@ if (isset($_POST['btn_login'])) {
                 $_SESSION['rol_id'] = $usuario['rol_id'];
 
                 if ($usuario['rol_id'] == 1) {
-                    header('Location: ../private/indexAdmin.php');
+                    header('Location: ../private/indexAdmin.php?mensaje=logeado');
                 } else {
-                    header('Location: ../index.php');
+                    header('Location: ../index.php?mensaje=logeado');
                 }
                 exit();
             } else {

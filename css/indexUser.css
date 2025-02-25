@@ -7,8 +7,17 @@ body {
 .peliculas-div {
     height: 300px;  
 }
+.nav-fixed{
+    position:fixed !important; 
+    top:0; 
+    left:0;
+    right:0; 
+    z-index:1001 !important;
+}
 #myCarousel {
-    height: 600px; /* Ajusta la altura según necesites */
+    padding-top: 100px;
+    height: 90vh; /* Ajusta la altura según necesites */
+    padding-top: 5%;
   }
   
 #myCarousel .carousel-inner,
