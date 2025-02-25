@@ -15,54 +15,32 @@
     <nav class="navbar navbar-expand-lg">
         <div class="container-fluid">
             <!-- Logo -->
-            <a class="navbar-brand text-white" href="./indexAdmin.php"><img src="../img/logo.png" alt="Logo"></a>
-            
-            
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+            <a class="navbar-brand text-white" href="./indexAdmin.php">
+                <img src="../img/logo.png" alt="Logo">
+            </a>
 
-           
-            <div class="collapse navbar-collapse d-flex justify-content-between align-items-center w-100" id="navbarSupportedContent">
-                
-                <div class="d-flex justify-content-start w-20"></div>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <div class="filters-container d-flex align-items-center gap-3 ms-auto">
+                    <div class="input-group">
+                        <span class="input-group-text">Título</span>
+                        <input type="text" id="titulo-filter" class="form-control" placeholder="Filtrar por título...">
+                    </div>
+                    
+                    <div class="input-group">
+                        <span class="input-group-text">Director</span>
+                        <input type="text" id="director-filter" class="form-control" placeholder="Filtrar por director...">
+                    </div>
+                    
+                    <div class="input-group">
+                        <span class="input-group-text">Año</span>
+                        <input type="number" id="ano-filter" class="form-control" placeholder="Año...">
+                    </div>
 
-               
-                <button class="btn btn-primary mx-3" type="button" id="crear">Añadir película</button>
-
-                <div class="d-flex justify-content-end w-40">
-                    <form class="d-flex" role="search">
-                        <div class="input-group">
-                            <span class="input-group-text"><i class="fas fa-search"></i></span>
-                            <input class="form-control search-input" id="search" type="search" placeholder="Buscar..." aria-label="Search">
-                        </div>
-                    </form>
+                    <button class="btn btn-primary" type="button" id="crear">Añadir película</button>
                 </div>
             </div>
         </div>
     </nav>
-    
-    <!-- Añadir después del botón "Añadir película" y antes de la tabla -->
-    <div class="filters-container d-flex justify-content-between align-items-center mb-3">
-        <div class="input-group me-2" style="max-width: 200px;">
-            <span class="input-group-text">Título</span>
-            <input type="text" id="titulo-filter" class="form-control" placeholder="Filtrar por título...">
-        </div>
-        
-        <div class="input-group me-2" style="max-width: 200px;">
-            <span class="input-group-text">Director</span>
-            <input type="text" id="director-filter" class="form-control" placeholder="Filtrar por director...">
-        </div>
-        
-        <div class="input-group me-2" style="max-width: 150px;">
-            <span class="input-group-text">Año</span>
-            <input type="number" id="ano-filter" class="form-control" placeholder="Año...">
-        </div>
-        
-        <button id="likes-order" class="btn btn-outline-primary">
-            <i class="fas fa-heart"></i> Ordenar por likes
-        </button>
-    </div>
     
     <table class="mitabla">
         <thead class="table_head">
@@ -71,7 +49,12 @@
                 <th>Descripción</th>
                 <th>Director</th>
                 <th>Año</th>
-                <th>Likes</th>
+                <th>
+                    Likes 
+                    <span id="likes-order" style="cursor: pointer;">
+                        <i class="fas fa-sort"></i>
+                    </span>
+                </th>
                 <th>Acciones</th>
             </tr>
         </thead>
@@ -86,6 +69,8 @@
 </body>
 
 </html>
+
+
 
 
 

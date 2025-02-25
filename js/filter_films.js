@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const anoFilter = document.getElementById('ano-filter');
     const likesOrderBtn = document.getElementById('likes-order');
     
-    let orderLikes = false; // Estado del orden de likes
+    let likesOrder = null; // null = sin orden, 'asc' = ascendente, 'desc' = descendente
     
     // Función para aplicar los filtros
     function aplicarFiltros() {
@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (tituloFilter.value) params.append('titulo', tituloFilter.value);
         if (directorFilter.value) params.append('director', directorFilter.value);
         if (anoFilter.value) params.append('ano', anoFilter.value);
-        if (orderLikes) params.append('orderLikes', 'desc');
+        if (likesOrder) params.append('orderLikes', likesOrder);
         
         // Realizar la petición fetch con los filtros
         fetch(`../procesos/proc_films.php?${params.toString()}`)
@@ -58,17 +58,26 @@ document.addEventListener('DOMContentLoaded', function() {
         resultado.innerHTML = tabla;
     }
     
+    // Función para actualizar el icono de ordenamiento
+    function actualizarIconoOrdenamiento() {
+        const icon = likesOrderBtn.querySelector('i');
+        icon.className = likesOrder === 'asc' ? 'fas fa-sort-up' :
+                        likesOrder === 'desc' ? 'fas fa-sort-down' : 'fas fa-sort';
+    }
+    
+    // Toggle para ordenar por likes
+    likesOrderBtn.addEventListener('click', function() {
+        likesOrder = likesOrder === null ? 'desc' :
+                    likesOrder === 'desc' ? 'asc' :
+                    likesOrder === 'asc' ? null : 'desc';
+        actualizarIconoOrdenamiento();
+        aplicarFiltros();
+    });
+    
     // Event listeners para los filtros
     tituloFilter.addEventListener('input', debounce(aplicarFiltros, 300));
     directorFilter.addEventListener('input', debounce(aplicarFiltros, 300));
     anoFilter.addEventListener('change', aplicarFiltros);
-    
-    // Toggle para ordenar por likes
-    likesOrderBtn.addEventListener('click', function() {
-        orderLikes = !orderLikes;
-        this.classList.toggle('active');
-        aplicarFiltros();
-    });
     
     // Función debounce para evitar muchas peticiones seguidas
     function debounce(func, wait) {
