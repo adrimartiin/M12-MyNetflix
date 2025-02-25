@@ -7,7 +7,21 @@ body {
     background-color: #151414 !important;
     font-family: Arial, sans-serif;
 }
+.btn-login {
+    background-color: #151414;
+    border: 1px solid #B5ADAD;
+    color: #fff;
+    padding: 10px 20px;
+    font-size: 18px;
+    border-radius: 5px;
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+}
 
+.btn-login:hover {
+    background-color: #DB202C;
+    border-color: #fff;
+}
 .container-menu {
     display: flex;
     flex-direction: column;
@@ -36,7 +50,16 @@ section {
     border: 1px solid #B5ADAD; 
     border-radius: 10px;
 }
-
+.nav-fixed{
+    position:fixed !important; 
+    top:0; 
+    left:0;
+    right:0; 
+    z-index:1001 !important;
+}
+.navbar-brand img {
+    height: 50px;
+}
 section img {
     width: 100%;
     height: 100%;

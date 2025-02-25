@@ -25,8 +25,8 @@ function ListaFilms() {
                 str += "<td>" + item.ano + "</td>";
                 str += "<td>" + item.likes + "</td>";
                 str += "<td>";
-                str += " <button type='button' class='btn btn-success' onclick='Update(" + item.id_peli + ")'>Editar</button>";
-                str += ` <button type="button" class="btn btn-danger" onclick="Eliminar(${item.id_peli})">Eliminar</button>`;
+                str += " <button type='button' class='btn-edit' onclick='Update(" + item.id_peli + ")'>Editar</button>";
+                str += ` <button type="button" class="btn-delete" onclick="Eliminar(${item.id_peli})">Eliminar</button>`;
                 str += "</td>";
                 str += "</tr>";
                 tabla += str;

@@ -1,6 +1,13 @@
 <?php
   require_once './bd/conexion.php';
   session_start();
+  if(!isset($_SESSION['nombre_usuario'])){
+    header('Location: ./procesos/logout.php');
+    exit;
+  } else if($_SESSION['rol_id'] == 1){
+    header('Location: ./private/indexAdmin.php');
+    exit;
+  }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -16,7 +23,7 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg bg-dark">
+    <nav class="navbar navbar-expand-lg bg-dark nav-fixed">
         <div class="container-fluid">
             <a class="navbar-brand text-white" href="#"><img src="./img/logo.png" alt="Logo"></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
