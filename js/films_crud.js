@@ -20,13 +20,15 @@ function ListaFilms() {
             // Recorremos el array de películas y construimos las filas de la tabla HTML
             films.forEach(function (item) {
                 let str = "<tr><td>" + item.titulo + "</td>";
-                str += "<td>" + item.descripcion + "</td>";
+                str += "<td class='hide-mobile'>" + item.descripcion + "</td>";
                 str += "<td>" + item.director + "</td>";
                 str += "<td>" + item.ano + "</td>";
-                str += "<td>" + item.likes + "</td>";
+                str += "<td class='hide-mobile'>" + item.likes + "</td>";
                 str += "<td>";
-                str += " <button type='button' class='btn-edit' onclick='Update(" + item.id_peli + ")'>Editar</button>";
-                str += ` <button type="button" class="btn-delete" onclick="Eliminar(${item.id_peli})">Eliminar</button>`;
+                str += "<div class='action-buttons'>";
+                str += `<i class="fas fa-edit icon-action" onclick='Update(${item.id_peli})'></i>`;
+                str += `<i class="fas fa-trash-alt icon-action" style="color: red;" onclick="Eliminar(${item.id_peli})"></i>`;
+                str += "</div>";
                 str += "</td>";
                 str += "</tr>";
                 tabla += str;

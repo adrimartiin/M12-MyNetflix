@@ -159,3 +159,208 @@ table {
     background-color: #FF0A16;
     border-color: #fff;
 }
+
+/* Estilos para navbar responsive */
+.navbar-toggler {
+    border: none;
+    color: white;
+}
+
+.navbar-toggler:focus {
+    box-shadow: none;
+}
+
+.dropdown-menu {
+    min-width: 250px;
+    background-color: #151414;
+    border: 1px solid #333;
+}
+
+.dropdown-menu .form-control {
+    background-color: #333;
+    border: none;
+    color: white;
+}
+
+.dropdown-menu .form-label {
+    color: white;
+}
+
+/* Estilos para tabla responsive */
+.table-responsive {
+    margin: 20px;
+    overflow-x: auto;
+}
+
+.mitabla {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    color: #fff;
+}
+
+.table_head {
+    background-color: #1a1a1a;
+}
+
+.table_head th {
+    padding: 15px;
+    font-weight: 500;
+    border-bottom: 2px solid #333;
+}
+
+.table_body {
+    background-color: #151414;
+}
+
+.table_body tr {
+    border-bottom: 1px solid #333;
+    transition: background-color 0.3s;
+}
+
+.table_body tr:hover {
+    background-color: #1f1f1f;
+}
+
+.table_body td {
+    padding: 12px 15px;
+    vertical-align: middle;
+}
+
+/* Ajustes específicos para columnas */
+.mitabla th:first-child,
+.mitabla td:first-child {
+    padding-left: 20px;
+}
+
+.mitabla th:last-child,
+.mitabla td:last-child {
+    padding-right: 20px;
+    text-align: center;
+}
+
+/* Ajustes para los botones de acción */
+.action-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+.btn-icon {
+    background: none;
+    border: none;
+    padding: 8px;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.btn-icon:hover {
+    transform: scale(1.1);
+}
+
+.btn-icon.edit {
+    color: white;
+}
+
+.btn-icon.delete {
+    color: #f44336;
+}
+
+/* Ajustes responsive */
+@media (max-width: 768px) {
+    .table-responsive {
+        margin: 10px;
+    }
+
+    .mitabla {
+        font-size: 14px;
+        table-layout: fixed;
+    }
+
+    /* Ocultar columnas de descripción y likes en móvil */
+    .hide-mobile {
+        display: none !important;
+    }
+
+    /* Redistribuir el espacio entre las columnas visibles */
+    .mitabla th,
+    .mitabla td {
+        padding: 8px 4px;
+    }
+
+    /* Ajustar anchos de columnas visibles y corregir selectores */
+    .mitabla th:first-child,
+    .mitabla td:first-child { /* Título */
+        width: 40%;
+    }
+    
+    /* Ajustado para que coincida con Director después de ocultar Descripción */
+    .mitabla th:nth-child(3),
+    .mitabla td:nth-child(3) { /* Director */
+        width: 30%;
+        display: table-cell; /* Forzar visualización */
+    }
+    
+    /* Ajustado para que coincida con Año */
+    .mitabla th:nth-child(4),
+    .mitabla td:nth-child(4) { /* Año */
+        width: 15%;
+        display: table-cell; /* Forzar visualización */
+    }
+    
+    /* Ajustado para Acciones */
+    .mitabla th:last-child,
+    .mitabla td:last-child { /* Acciones */
+        width: 15%;
+        text-align: center;
+        display: table-cell; /* Forzar visualización */
+    }
+
+    /* Ocultar explícitamente las columnas que no queremos ver */
+    .mitabla th:nth-child(2),
+    .mitabla td:nth-child(2), /* Descripción */
+    .mitabla th:nth-child(5),
+    .mitabla td:nth-child(5) { /* Likes */
+        display: none !important;
+    }
+
+    /* Ajustar botones en columna de acciones */
+    .btn-edit,
+    .btn-delete {
+        padding: 5px 8px;
+        font-size: 12px;
+        margin: 2px;
+    }
+}
+
+@media (max-width: 576px) {
+    .mitabla {
+        font-size: 13px;
+    }
+
+    .mitabla th,
+    .mitabla td {
+        padding: 6px 3px;
+    }
+
+    /* Ajustar anchos para pantallas muy pequeñas */
+    .mitabla th:first-child,
+    .mitabla td:first-child { /* Título */
+        width: 35%;
+    }
+    
+    .mitabla th:nth-child(3),
+    .mitabla td:nth-child(3) { /* Director */
+        width: 35%;
+    }
+    
+    .mitabla th:nth-child(4),
+    .mitabla td:nth-child(4) { /* Año */
+        width: 15%;
+    }
+    
+    .mitabla th:last-child,
+    .mitabla td:last-child { /* Acciones */
+        width: 15%;
+    }
+}

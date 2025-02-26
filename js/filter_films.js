@@ -44,13 +44,19 @@ document.addEventListener('DOMContentLoaded', function() {
         films.forEach(function(item) {
             tabla += `<tr>
                 <td>${item.titulo}</td>
-                <td>${item.descripcion}</td>
+                <td class="hide-mobile">${item.descripcion}</td>
                 <td>${item.director}</td>
                 <td>${item.ano}</td>
-                <td>${item.likes}</td>
+                <td class="hide-mobile">${item.likes}</td>
                 <td>
-                    <button type='button' class='btn btn-success' onclick='Update(${item.id_peli})'>Editar</button>
-                    <button type="button" class="btn btn-danger" onclick="Eliminar(${item.id_peli})">Eliminar</button>
+                    <div class="action-buttons">
+                        <button type='button' class='btn-icon edit' title="Editar">
+                            <i class="fas fa-edit" style="color: white;" onclick='Update(${item.id_peli})'></i>
+                        </button>
+                        <button type="button" class="btn-icon delete" title="Eliminar">
+                            <i class="fas fa-trash-alt icon-action" style="color: red;" onclick="Eliminar(${item.id_peli})"></i>
+                        </button>
+                    </div>
                 </td>
             </tr>`;
         });
