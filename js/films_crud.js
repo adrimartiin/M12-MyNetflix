@@ -1,3 +1,8 @@
+// Añadir estas variables al inicio del archivo
+const ITEMS_PER_PAGE = 10;
+let currentPage = 1;
+let totalItems = 0;
+
 window.onload = function () {
     ListaFilms();
     InsertFilm();
@@ -15,10 +20,18 @@ function ListaFilms() {
             }
         })
         .then(films => {
+            totalItems = films.length;
+            const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
+            
+            // Paginar los resultados
+            const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+            const endIndex = startIndex + ITEMS_PER_PAGE;
+            const paginatedFilms = films.slice(startIndex, endIndex);
+            
             let tabla = '';
 
             // Recorremos el array de películas y construimos las filas de la tabla HTML
-            films.forEach(function (item) {
+            paginatedFilms.forEach(function (item) {
                 let str = "<tr><td>" + item.titulo + "</td>";
                 str += "<td class='hide-mobile'>" + item.descripcion + "</td>";
                 str += "<td>" + item.director + "</td>";
@@ -36,7 +49,9 @@ function ListaFilms() {
 
             // Insertar la tabla construida en el elemento resultado
             resultado.innerHTML = tabla;
-
+            
+            // Actualizar la paginación
+            updatePagination(totalPages);
         })
         .catch(error => {
             console.error('Error:', error);
@@ -44,6 +59,81 @@ function ListaFilms() {
         });
 }
 
+function updatePagination(totalPages) {
+    const paginationContainer = document.getElementById('pagination');
+    let paginationHTML = '';
+    
+    // Botón Anterior
+    paginationHTML += `
+        <button class="pagination-button" 
+                onclick="changePage(${currentPage - 1})" 
+                ${currentPage === 1 ? 'disabled' : ''}>
+            <i class="fas fa-chevron-left"></i>
+        </button>`;
+
+    // Lógica para mostrar números de página con puntos suspensivos
+    let pagesToShow = [];
+    
+    if (totalPages <= 7) {
+        // Si hay 7 o menos páginas, mostrar todas
+        pagesToShow = Array.from({length: totalPages}, (_, i) => i + 1);
+    } else {
+        // Siempre mostrar primera página
+        pagesToShow.push(1);
+        
+        if (currentPage > 3) {
+            pagesToShow.push('...');
+        }
+        
+        // Páginas alrededor de la página actual
+        for (let i = Math.max(2, currentPage - 1); i <= Math.min(totalPages - 1, currentPage + 1); i++) {
+            pagesToShow.push(i);
+        }
+        
+        if (currentPage < totalPages - 2) {
+            pagesToShow.push('...');
+        }
+        
+        // Siempre mostrar última página
+        pagesToShow.push(totalPages);
+    }
+
+    // Generar botones de página
+    pagesToShow.forEach(page => {
+        if (page === '...') {
+            paginationHTML += `<span class="pagination-separator">...</span>`;
+        } else {
+            paginationHTML += `
+                <button class="pagination-button ${currentPage === page ? 'active' : ''}" 
+                        onclick="changePage(${page})">
+                    ${page}
+                </button>`;
+        }
+    });
+    
+    // Botón Siguiente
+    paginationHTML += `
+        <button class="pagination-button" 
+                onclick="changePage(${currentPage + 1})" 
+                ${currentPage === totalPages ? 'disabled' : ''}>
+            <i class="fas fa-chevron-right"></i>
+        </button>`;
+    
+    paginationContainer.innerHTML = paginationHTML;
+}
+
+function changePage(newPage) {
+    if (newPage >= 1 && newPage <= Math.ceil(totalItems / ITEMS_PER_PAGE)) {
+        currentPage = newPage;
+        ListaFilms();
+    }
+}
+
+// Asegúrate de que la paginación se actualice también cuando se aplican filtros
+window.aplicarFiltros = function() {
+    currentPage = 1; // Reset a la primera página cuando se aplica un filtro
+    ListaFilms();
+}
 
 // CREAR
 function InsertFilm() {
