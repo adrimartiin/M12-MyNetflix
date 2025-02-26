@@ -1,13 +1,5 @@
 <?php
-  require_once './bd/conexion.php';
-  session_start();
-  if(!isset($_SESSION['nombre_usuario'])){
-    header('Location: ./procesos/logout.php');
-    exit;
-  } else if($_SESSION['rol_id'] == 1){
-    header('Location: ./private/indexAdmin.php');
-    exit;
-  }
+  require_once './procesos/obtener_peliculas.php'; // Incluir el archivo que contiene la lógica de obtención de películas
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -22,7 +14,7 @@
     <title>Gestión Usuarios</title>
 </head>
 
-<body>
+<body class="<?php echo isset($_SESSION['nombre_usuario']) ? 'logged-in' : ''; ?>">
     <nav class="navbar navbar-expand-lg bg-dark nav-fixed">
         <div class="container-fluid">
             <a class="navbar-brand text-white" href="#"><img src="./img/logo.png" alt="Logo"></a>
@@ -58,34 +50,53 @@
         </button>
     </div>
     <!-- Contenedor principal -->
-    <div class="container mt-4">
-        <div class="row">
-            <!-- Primer div -->
-            <div class="col-12 p-3 mb-5 bg-light border rounded peliculas-div">
-                <h5>Div 1</h5>
-                <p>Contenido del primer div.</p>
+        <div class="container mt-4">
+        <?php foreach ($peliculasPorCategoria as $categoria => $peliculas): ?>
+            <div class="categoria mb-4">
+                <h3 class="text-white"><?php echo htmlspecialchars($categoria); ?></h3>
+                <div class="scroll-container">
+                    <?php foreach ($peliculas as $pelicula): ?>
+                        <div class="pelicula">
+                            <img src="./img/<?php echo htmlspecialchars($pelicula['imagen']); ?>" 
+                                alt="<?php echo htmlspecialchars($pelicula['titulo']); ?>" 
+                                class="img-fluid pelicula-img"
+                                data-titulo="<?php echo htmlspecialchars($pelicula['titulo']); ?>"
+                                data-descripcion="<?php echo htmlspecialchars($pelicula['descripcion']); ?>"
+                                data-director="<?php echo htmlspecialchars($pelicula['director']); ?>"
+                                data-ano="<?php echo htmlspecialchars($pelicula['ano']); ?>"
+                                data-likes="<?php echo htmlspecialchars($pelicula['likes']); ?>"
+                                data-id="<?php echo htmlspecialchars($pelicula['id_peli']); ?>"
+                                data-liked="<?php echo $pelicula['usuarioHaDadoLike'] ? 'true' : 'false'; ?>">
+                        </div>
+                    <?php endforeach; ?>
+                </div>
             </div>
-        </div>
-
-        <div class="row">
-            <!-- Primer div -->
-            <div class="col-12 p-3 mb-5 bg-light border rounded peliculas-div">
-                <h5>Div 1</h5>
-                <p>Contenido del primer div.</p>
-            </div>
-        </div>
-        <div class="row">
-            <!-- Primer div -->
-            <div class="col-12 p-3 mb-5 bg-light border rounded peliculas-div">
-                <h5>Div 1</h5>
-                <p>Contenido del primer div.</p>
-            </div>
-        </div>
-
+        <?php endforeach; ?>
     </div>
     <script src="js/carrusel.js"></script>
     <script src="js/sweetalert.js"></script> 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Modal -->
+    <div class="modal fade" id="peliculaModal" tabindex="-1" aria-labelledby="peliculaModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="peliculaModalLabel"></h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <p id="modalDescripcion"></p>
+            <p><strong>Director:</strong> <span id="modalDirector"></span></p>
+            <p><strong>Año:</strong> <span id="modalAno"></span></p>
+            <p><strong>Likes:</strong> <span id="modalLikes"></span></p>
+            <button id="likeButton" class="btn btn-primary">
+                <i class="fa-regular fa-heart" id="likeIcon"></i> <span id="likeButtonText">Dar Like</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="js/scroll.js"></script>
 </body>
-
+<script src="js/peliculas_inicio.js"></script>
 </html>
