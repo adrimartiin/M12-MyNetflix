@@ -67,9 +67,16 @@ INSERT INTO tbl_usuarios (nombre_usuario, email, password_hash, rol_id, estado) 
 
 -- Insertar películas
 INSERT INTO tbl_peliculas (titulo, descripcion, director, ano, imagen, likes) VALUES
-('El Origen', 'Un ladrón que roba secretos...', 'Christopher Nolan', 2010, 'el_origen.jpg', 4),
-('La Matrix', 'Un hacker descubre la verdad...', 'Lana Wachowski, Lilly Wachowski', 1999, 'la_matrix.jpg', 5),
-('Interestelar', 'Un viaje más allá de las estrellas...', 'Christopher Nolan', 2014, 'interestelar.jpg', 6);
+('Oppenheimer', 'Biografía del creador de la bomba atómica.', 'Christopher Nolan', 2023, 'oppenheimer.jpg', 100),
+('Barbie', 'Una muñeca en un mundo real descubre su propósito.', 'Greta Gerwig', 2023, 'barbie.jpg', 120),
+('Avatar: El camino del agua', 'Secuela de la épica aventura en Pandora.', 'James Cameron', 2023, 'avatar2.jpg', 150),
+('Dune: Parte Dos', 'La continuación de la lucha de Paul Atreides.', 'Denis Villeneuve', 2024, 'dune2.jpg', 95),
+('Ne Zha 2', 'Película de animación china sobre el legendario Ne Zha.', 'Yu Yang', 2024, 'nezha2.jpg', 80),
+('Padre no hay más que uno 4', 'Cuarta entrega de la comedia familiar española.', 'Santiago Segura', 2024, 'padre4.jpg', 60),
+('Avatar 3', 'Nueva entrega de la saga de James Cameron.', 'James Cameron', 2025, 'avatar3.jpg', 110),
+('Misión Imposible 8', 'Ethan Hunt enfrenta su misión más peligrosa.', 'Christopher McQuarrie', 2025, 'mi8.jpg', 105),
+('Jurassic World 4', 'El regreso de los dinosaurios a la gran pantalla.', 'Aún por confirmar', 2025, 'jurassic4.jpg', 90),
+('Deadpool 3', 'Deadpool y Wolverine unen fuerzas en una aventura multiversal.', 'Shawn Levy', 2024, 'deadpool3.jpg', 130);
 
 -- Insertar likes
 INSERT INTO tbl_likes (id_usuario, id_pelicula) VALUES
