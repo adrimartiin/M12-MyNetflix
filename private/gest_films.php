@@ -77,6 +77,9 @@
         </table>
     </div>
 
+    <!-- Añadir esto justo después de la tabla -->
+    <div class="pagination-container" id="pagination"></div>
+
     <script src="../js/films_crud.js"></script>
     <script src="../js/sweetalert.js"></script>
     <script src="../js/filter_films.js"></script>
