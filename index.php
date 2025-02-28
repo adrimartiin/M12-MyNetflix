@@ -51,29 +51,20 @@ session_start();
     </div>
     <div class="container mt-4">
     <div class="filtros">
-    <select id="filtroCategoria" class="form-select">
-        <option value="">Filtrar por Categoría</option>
-        <option value="Acción">Acción</option>
-        <option value="Comedia">Comedia</option>
-        <option value="Drama">Drama</option>
-        <!-- Agrega más categorías según lo necesites -->
-    </select>
+        <select id="filtroCategoria" class="form-select">
+            <option value="">Filtrar por Categoría</option>
+            <?php
+            require_once './bd/conexion.php';
+            $stmt = $conexion->query("SELECT nombre FROM tbl_categorias ORDER BY nombre");
+            while ($categoria = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                echo '<option value="' . htmlspecialchars($categoria['nombre']) . '">' . htmlspecialchars($categoria['nombre']) . '</option>';
+            }
+            ?>
+        </select>
 
-    <select id="filtroDirector" class="form-select">
-        <option value="">Filtrar por Director</option>
-        <option value="George Miller">George Miller</option>
-        <option value="Chad Stahelski">Chad Stahelski</option>
-        <option value="Greg Mottola">Greg Mottola</option>
-        <!-- Agrega más directores según lo necesites -->
-    </select>
-
-    <select id="filtroAno" class="form-select">
-        <option value="">Filtrar por Año</option>
-        <option value="2015">2015</option>
-        <option value="2014">2014</option>
-        <option value="2007">2007</option>
-    </select>
-</div>
+        <input type="text" id="filtroNombre" class="form-control" placeholder="Buscar por nombre de película">
+        <input type="number" id="filtroAno" class="form-control" placeholder="Filtrar por año" min="1900" max="2024">
+    </div>
 <div id="peliculas-container" class="container mt-4">
 </div>
     </div>
@@ -98,9 +89,9 @@ session_start();
     </div>
 </body>
 </html>    
-<script src="js/scroll.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<script src="js/sweetalert.js"></script>
 <script src="js/peliculas_inicio.js"></script>
 <script src="js/index.js"></script>
 <script src="js/carrusel.js"></script>
-<script src="js/sweetalert.js"></script> 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<script src="js/scroll.js"></script>

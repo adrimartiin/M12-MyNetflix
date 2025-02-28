@@ -1,48 +1,88 @@
 <?php
-require_once '../bd/conexion.php';
 session_start();
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
-if (!isset($_SESSION['nombre_usuario'])) {
-    echo json_encode(['success' => false, 'message' => 'Debes iniciar sesión para dar like.']);
+require_once '../bd/conexion.php';
+
+// Verificar si el usuario está autenticado
+if (!isset($_SESSION['id_usuario'])) {
+    header('Content-Type: application/json');
+    echo json_encode([
+        'success' => false,
+        'message' => 'Debes iniciar sesión para dar like'
+    ]);
     exit;
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_GET['id'])) {
-    $id = intval($_GET['id']);
-    $usuarioId = $_SESSION['id_usuario']; // Asegúrate de que el ID del usuario esté almacenado en la sesión
+// Obtener el ID de la película y el usuario
+$idPelicula = isset($_GET['id']) ? intval($_GET['id']) : 0;
+$idUsuario = $_SESSION['id_usuario'];
 
-    // Verificar si el usuario ya ha dado like a esta película
-    $stmt = $conexion->prepare("SELECT COUNT(*) FROM tbl_likes WHERE id_usuario = ? AND id_pelicula = ?");
-    $stmt->execute([$usuarioId, $id]);
-    $alreadyLiked = $stmt->fetchColumn();
+if ($idPelicula <= 0) {
+    header('Content-Type: application/json');
+    echo json_encode([
+        'success' => false,
+        'message' => 'ID de película no válido'
+    ]);
+    exit;
+}
 
-    if ($alreadyLiked) {
-        // Si ya ha dado like, eliminar el like
-        $stmt = $conexion->prepare("DELETE FROM tbl_likes WHERE id_usuario = ? AND id_pelicula = ?");
-        $stmt->execute([$usuarioId, $id]);
-
-        // Decrementar el contador de likes en tbl_peliculas
-        $stmt = $conexion->prepare("UPDATE tbl_peliculas SET likes = likes - 1 WHERE id_peli = ?");
-        $stmt->execute([$id]);
-
-        $message = 'Like eliminado';
-    } else {
-        // Si no ha dado like, añadir el like
-        $stmt = $conexion->prepare("INSERT INTO tbl_likes (id_usuario, id_pelicula) VALUES (?, ?)");
-        $stmt->execute([$usuarioId, $id]);
-
-        // Incrementar el contador de likes en tbl_peliculas
-        $stmt = $conexion->prepare("UPDATE tbl_peliculas SET likes = likes + 1 WHERE id_peli = ?");
-        $stmt->execute([$id]);
-
-        $message = 'Like añadido';
+try {
+    // Asegurar que la conexión está activa
+    if (!$conexion) {
+        throw new Exception('La conexión a la base de datos no está disponible');
     }
 
-    $stmt = $conexion->prepare("SELECT likes FROM tbl_peliculas WHERE id_peli = ?");
-    $stmt->execute([$id]);
-    $likes = $stmt->fetchColumn();
+    // Verificar si el usuario ya dio like a esta película
+    $stmt = $conexion->prepare("SELECT id_likes FROM tbl_likes WHERE id_usuario = ? AND id_pelicula = ?");
+    $stmt->execute([$idUsuario, $idPelicula]);
+    $like = $stmt->fetch();
 
-    echo json_encode(['success' => true, 'newLikes' => $likes, 'message' => $message]);
-} else {
-    echo json_encode(['success' => false]);
-} 
+    if ($like) {
+        // Si existe el like, lo eliminamos
+        $stmt = $conexion->prepare("DELETE FROM tbl_likes WHERE id_usuario = ? AND id_pelicula = ?");
+        $stmt->execute([$idUsuario, $idPelicula]);
+
+        // Actualizar el contador de likes en la tabla de películas
+        $stmt = $conexion->prepare("UPDATE tbl_peliculas SET likes = likes - 1 WHERE id_peli = ?");
+        $stmt->execute([$idPelicula]);
+
+        // Obtener el nuevo número de likes
+        $stmt = $conexion->prepare("SELECT likes FROM tbl_peliculas WHERE id_peli = ?");
+        $stmt->execute([$idPelicula]);
+        $newLikes = $stmt->fetchColumn();
+
+        echo json_encode([
+            'success' => true,
+            'message' => 'Like eliminado correctamente',
+            'newLikes' => $newLikes
+        ]);
+    } else {
+        // Si no existe el like, lo añadimos
+        $stmt = $conexion->prepare("INSERT INTO tbl_likes (id_usuario, id_pelicula) VALUES (?, ?)");
+        $stmt->execute([$idUsuario, $idPelicula]);
+
+        // Actualizar el contador de likes en la tabla de películas
+        $stmt = $conexion->prepare("UPDATE tbl_peliculas SET likes = likes + 1 WHERE id_peli = ?");
+        $stmt->execute([$idPelicula]);
+
+        // Obtener el nuevo número de likes
+        $stmt = $conexion->prepare("SELECT likes FROM tbl_peliculas WHERE id_peli = ?");
+        $stmt->execute([$idPelicula]);
+        $newLikes = $stmt->fetchColumn();
+
+        echo json_encode([
+            'success' => true,
+            'message' => 'Like añadido correctamente',
+            'newLikes' => $newLikes
+        ]);
+    }
+} catch (Exception $e) {
+    header('Content-Type: application/json');
+    echo json_encode([
+        'success' => false,
+        'message' => 'Error al procesar el like: ' . $e->getMessage()
+    ]);
+}
+?> 

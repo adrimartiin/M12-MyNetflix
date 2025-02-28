@@ -1,8 +1,10 @@
-document.addEventListener('DOMContentLoaded', function() {
+// Variables globales para el manejo de likes
+let currentPeliculaId = null;
+let currentPeliculaImg = null;
+
+function initializePeliculaListeners() {
     const peliculaImgs = document.querySelectorAll('.pelicula-img');
     const modal = new bootstrap.Modal(document.getElementById('peliculaModal'));
-    let currentPeliculaId = null;
-    let currentPeliculaImg = null;
 
     peliculaImgs.forEach(img => {
         img.addEventListener('click', function() {
@@ -36,30 +38,52 @@ document.addEventListener('DOMContentLoaded', function() {
             modal.show();
         });
     });
+}
 
-    document.getElementById('likeButton').addEventListener('click', function() {
-        if (!currentPeliculaId) return;
+// Asegurarse de que el evento DOMContentLoaded solo se añade una vez
+document.addEventListener('DOMContentLoaded', initializePeliculaListeners);
+document.addEventListener('peliculasCargadas', initializePeliculaListeners);
 
-        // Verificar si el usuario ha iniciado sesión
-        if (!document.body.classList.contains('logged-in')) {
-            Swal.fire({
-                icon: 'warning',
-                title: 'Inicia sesión',
-                text: 'Debes iniciar sesión para dar like.',
-                confirmButtonText: 'Aceptar'
-            });
-            return;
-        }
+// Manejar el evento de like
+document.getElementById('likeButton').addEventListener('click', function() {
+    if (!currentPeliculaId) return;
 
-        fetch(`procesos/like_pelicula.php?id=${currentPeliculaId}`, {
-            method: 'POST'
+    // Verificar si el usuario ha iniciado sesión
+    if (!document.body.classList.contains('logged-in')) {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Inicia sesión',
+            text: 'Debes iniciar sesión para dar like.',
+            confirmButtonText: 'Aceptar'
+        });
+        return;
+    }
+
+    // Mostrar la URL que se está intentando alcanzar
+    const url = `./procesos/like_pelicula.php?id=${currentPeliculaId}`;
+    console.log('Intentando alcanzar:', url);
+
+    fetch(url)
+        .then(response => {
+            console.log('Response status:', response.status);
+            console.log('Response headers:', response.headers);
+            return response.text(); // Cambiamos a text() para ver la respuesta raw
         })
-        .then(response => response.json())
-        .then(data => {
+        .then(rawText => {
+            console.log('Respuesta raw del servidor:', rawText);
+            const data = JSON.parse(rawText); // Intentamos parsear manualmente
+            
             if (data.success) {
+                // Actualizar el contador de likes en el modal
                 document.getElementById('modalLikes').textContent = data.newLikes;
+                
+                // Actualizar el atributo data-likes en la imagen
+                currentPeliculaImg.setAttribute('data-likes', data.newLikes);
+                
+                // Actualizar el icono y texto del botón
                 const likeIcon = document.getElementById('likeIcon');
                 const likeButtonText = document.getElementById('likeButtonText');
+                
                 if (data.message.includes('añadido')) {
                     likeIcon.classList.remove('fa-regular');
                     likeIcon.classList.add('fa-solid');
@@ -72,14 +96,18 @@ document.addEventListener('DOMContentLoaded', function() {
                     currentPeliculaImg.setAttribute('data-liked', 'false');
                 }
             } else {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: data.message || 'Error al dar like.',
-                    confirmButtonText: 'Aceptar'
-                });
+                throw new Error(data.message || 'Error en la respuesta del servidor');
             }
+        })
+        .catch(error => {
+            console.error('Error detallado:', error);
+            console.error('Stack trace:', error.stack);
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Error al procesar la solicitud. Revisa la consola para más detalles.',
+                confirmButtonText: 'Aceptar'
+            });
         });
-    });
 });
 
