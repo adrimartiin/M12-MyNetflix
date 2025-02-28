@@ -61,6 +61,13 @@ function ListaFilms() {
 
 function updatePagination(totalPages) {
     const paginationContainer = document.getElementById('pagination');
+    
+    // Si no hay suficientes items para paginar, ocultamos la paginación
+    if (totalItems <= ITEMS_PER_PAGE) {
+        paginationContainer.innerHTML = '';
+        return;
+    }
+    
     let paginationHTML = '';
     
     // Botón Anterior
@@ -94,8 +101,10 @@ function updatePagination(totalPages) {
             pagesToShow.push('...');
         }
         
-        // Siempre mostrar última página
-        pagesToShow.push(totalPages);
+        // Siempre mostrar última página si hay más de una página
+        if (totalPages > 1) {
+            pagesToShow.push(totalPages);
+        }
     }
 
     // Generar botones de página
@@ -105,19 +114,22 @@ function updatePagination(totalPages) {
         } else {
             paginationHTML += `
                 <button class="pagination-button ${currentPage === page ? 'active' : ''}" 
-                        onclick="changePage(${page})">
+                        onclick="changePage(${page})"
+                        ${totalItems <= ITEMS_PER_PAGE ? 'disabled' : ''}>
                     ${page}
                 </button>`;
         }
     });
     
-    // Botón Siguiente
-    paginationHTML += `
-        <button class="pagination-button" 
-                onclick="changePage(${currentPage + 1})" 
-                ${currentPage === totalPages ? 'disabled' : ''}>
-            <i class="fas fa-chevron-right"></i>
-        </button>`;
+    // Botón Siguiente - solo se muestra si hay más de una página
+    if (totalPages > 1) {
+        paginationHTML += `
+            <button class="pagination-button" 
+                    onclick="changePage(${currentPage + 1})" 
+                    ${currentPage === totalPages ? 'disabled' : ''}>
+                <i class="fas fa-chevron-right"></i>
+            </button>`;
+    }
     
     paginationContainer.innerHTML = paginationHTML;
 }
