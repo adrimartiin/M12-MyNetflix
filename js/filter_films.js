@@ -24,7 +24,21 @@ document.addEventListener('DOMContentLoaded', function() {
                 return response.json();
             })
             .then(films => {
-                actualizarTabla(films);
+                totalItems = films.length; // Actualizar el total de items
+                const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
+                
+                // Asegurarse de que la página actual es válida para los resultados filtrados
+                if (currentPage > totalPages) {
+                    currentPage = totalPages || 1;
+                }
+                
+                // Paginar los resultados filtrados
+                const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+                const endIndex = startIndex + ITEMS_PER_PAGE;
+                const paginatedFilms = films.slice(startIndex, endIndex);
+                
+                actualizarTabla(paginatedFilms);
+                updatePagination(totalPages);
             })
             .catch(error => {
                 console.error('Error:', error);
@@ -50,12 +64,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 <td class="hide-mobile">${item.likes}</td>
                 <td>
                     <div class="action-buttons">
-                        <button type='button' class='btn-icon edit' title="Editar">
-                            <i class="fas fa-edit" style="color: white;" onclick='Update(${item.id_peli})'></i>
-                        </button>
-                        <button type="button" class="btn-icon delete" title="Eliminar">
-                            <i class="fas fa-trash-alt icon-action" style="color: red;" onclick="Eliminar(${item.id_peli})"></i>
-                        </button>
+                        <i class="fas fa-edit icon-action" onclick='Update(${item.id_peli})'></i>
+                        <i class="fas fa-trash-alt icon-action" style="color: red;" onclick="Eliminar(${item.id_peli})"></i>
                     </div>
                 </td>
             </tr>`;
