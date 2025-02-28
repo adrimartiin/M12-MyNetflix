@@ -19,13 +19,13 @@
             </a>
             
             <!-- Botón hamburguesa -->
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
-                <i class="fas fa-bars"></i>
+            <button class="navbar-toggler" type="button" style="background-color: red;" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
             </button>
 
             <!-- Contenido del menú -->
             <div class="collapse navbar-collapse" id="navbarContent">
-                <div class="navbar-nav ms-auto">
+                <div class="navbar-nav ms-auto navbar-nav-text">
                     <!-- Filtros en el menú -->
                     <div class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
@@ -47,7 +47,7 @@
                         </div>
                     </div>
                     <!-- Botón Añadir -->
-                    <div class="nav-item">
+                    <div class="nav-item mt-2">
                         <button class="btn-login nav-link" id="crear">
                             <i class="fas fa-plus"></i> Añadir Película
                         </button>

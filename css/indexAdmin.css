@@ -93,3 +93,14 @@ section img:hover {
 .image-container:hover .text-overlay {
     opacity: 1;
 }
+@media (max-width: 576px) {
+    .image-container {
+        height: 33vh;
+    }
+    .btn-login{
+        padding: 5px 10px;
+    }
+    .div-btn{
+        flex-direction: row-reverse;
+    }
+}
