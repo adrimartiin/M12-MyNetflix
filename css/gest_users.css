@@ -3,6 +3,7 @@ body {
     margin: 0;
     background-color: #151414 !important;
     font-family: Arial, sans-serif;
+    width: 100%;
 }
 
 .navbar {
@@ -291,7 +292,7 @@ table {
     /* Ajustar anchos de columnas visibles y corregir selectores */
     .mitabla th:first-child,
     .mitabla td:first-child { /* Título */
-        width: 40%;
+        width: 50%;
     }
     
     /* Ajustado para que coincida con Director después de ocultar Descripción */
@@ -311,7 +312,7 @@ table {
     /* Ajustado para Acciones */
     .mitabla th:last-child,
     .mitabla td:last-child { /* Acciones */
-        width: 15%;
+        width: 50%;
         text-align: center;
         display: table-cell; /* Forzar visualización */
     }
@@ -319,6 +320,8 @@ table {
     /* Ocultar explícitamente las columnas que no queremos ver */
     .mitabla th:nth-child(2),
     .mitabla td:nth-child(2), /* Descripción */
+    .mitabla th:nth-child(3),
+    .mitabla td:nth-child(3), /* Descripción */
     .mitabla th:nth-child(5),
     .mitabla td:nth-child(5) { /* Likes */
         display: none !important;
@@ -346,7 +349,8 @@ table {
     /* Ajustar anchos para pantallas muy pequeñas */
     .mitabla th:first-child,
     .mitabla td:first-child { /* Título */
-        width: 35%;
+        width: 50%;
+        text-align: center;
     }
     
     .mitabla th:nth-child(3),
@@ -361,7 +365,7 @@ table {
     
     .mitabla th:last-child,
     .mitabla td:last-child { /* Acciones */
-        width: 15%;
+        width: 50%;
     }
 }
 
