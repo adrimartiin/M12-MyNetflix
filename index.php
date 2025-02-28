@@ -1,5 +1,5 @@
 <?php
-  require_once './procesos/obtener_peliculas.php'; // Incluir el archivo que contiene la lógica de obtención de películas
+session_start();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -49,34 +49,34 @@
             <span class="visually-hidden">Next</span>
         </button>
     </div>
-    <!-- Contenedor principal -->
-        <div class="container mt-4">
-        <?php foreach ($peliculasPorCategoria as $categoria => $peliculas): ?>
-            <div class="categoria mb-4">
-                <h3 class="text-white"><?php echo htmlspecialchars($categoria); ?></h3>
-                <div class="scroll-container">
-                    <?php foreach ($peliculas as $pelicula): ?>
-                        <div class="pelicula">
-                            <img src="./img/<?php echo htmlspecialchars($pelicula['imagen']); ?>" 
-                                alt="<?php echo htmlspecialchars($pelicula['titulo']); ?>" 
-                                class="img-fluid pelicula-img"
-                                data-titulo="<?php echo htmlspecialchars($pelicula['titulo']); ?>"
-                                data-descripcion="<?php echo htmlspecialchars($pelicula['descripcion']); ?>"
-                                data-director="<?php echo htmlspecialchars($pelicula['director']); ?>"
-                                data-ano="<?php echo htmlspecialchars($pelicula['ano']); ?>"
-                                data-likes="<?php echo htmlspecialchars($pelicula['likes']); ?>"
-                                data-id="<?php echo htmlspecialchars($pelicula['id_peli']); ?>"
-                                data-liked="<?php echo $pelicula['usuarioHaDadoLike'] ? 'true' : 'false'; ?>">
-                        </div>
-                    <?php endforeach; ?>
-                </div>
-            </div>
-        <?php endforeach; ?>
+    <div class="container mt-4">
+    <div class="filtros">
+    <select id="filtroCategoria" class="form-select">
+        <option value="">Filtrar por Categoría</option>
+        <option value="Acción">Acción</option>
+        <option value="Comedia">Comedia</option>
+        <option value="Drama">Drama</option>
+        <!-- Agrega más categorías según lo necesites -->
+    </select>
+
+    <select id="filtroDirector" class="form-select">
+        <option value="">Filtrar por Director</option>
+        <option value="George Miller">George Miller</option>
+        <option value="Chad Stahelski">Chad Stahelski</option>
+        <option value="Greg Mottola">Greg Mottola</option>
+        <!-- Agrega más directores según lo necesites -->
+    </select>
+
+    <select id="filtroAno" class="form-select">
+        <option value="">Filtrar por Año</option>
+        <option value="2015">2015</option>
+        <option value="2014">2014</option>
+        <option value="2007">2007</option>
+    </select>
+</div>
+<div id="peliculas-container" class="container mt-4">
+</div>
     </div>
-    <script src="js/carrusel.js"></script>
-    <script src="js/sweetalert.js"></script> 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <!-- Modal -->
     <div class="modal fade" id="peliculaModal" tabindex="-1" aria-labelledby="peliculaModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -96,7 +96,11 @@
         </div>
       </div>
     </div>
-    <script src="js/scroll.js"></script>
 </body>
+</html>    
+<script src="js/scroll.js"></script>
 <script src="js/peliculas_inicio.js"></script>
-</html>
+<script src="js/index.js"></script>
+<script src="js/carrusel.js"></script>
+<script src="js/sweetalert.js"></script> 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
