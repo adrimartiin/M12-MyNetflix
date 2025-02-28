@@ -22,7 +22,7 @@ session_start();
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
-            <?php
+                <?php
                 if (isset($_SESSION['nombre_usuario'])) {
                     echo '<div class="d-flex">
                             <a class="btn-login text-decoration-none" href="./procesos/logout.php">Cerrar sesión</a>
@@ -32,7 +32,7 @@ session_start();
                         <a class="btn-login text-decoration-none" href="./login.php">Iniciar sesión</a>
                     </div>';
                 }
-            ?>
+                ?>
             </div>
         </div>
     </nav>
@@ -95,3 +95,4 @@ session_start();
 <script src="js/index.js"></script>
 <script src="js/carrusel.js"></script>
 <script src="js/scroll.js"></script>
+
