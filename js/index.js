@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const filtroCategoria = document.getElementById('filtroCategoria');
     const filtroNombre = document.getElementById('filtroNombre');
     const filtroAno = document.getElementById('filtroAno');
+    const filtroLiked = document.getElementById('filtroLiked');
     const peliculasContainer = document.getElementById('peliculas-container');
 
     // Función de debounce para evitar demasiadas peticiones
@@ -21,11 +22,13 @@ document.addEventListener('DOMContentLoaded', function() {
         const categoria = filtroCategoria.value;
         const nombre = filtroNombre.value;
         const ano = filtroAno.value;
+        const liked = filtroLiked.value;
 
         let url = './procesos/cargar_peliculas.php?';
         if (categoria) url += `categoria=${encodeURIComponent(categoria)}&`;
         if (nombre) url += `nombre=${encodeURIComponent(nombre)}&`;
-        if (ano) url += `ano=${encodeURIComponent(ano)}`;
+        if (ano) url += `ano=${encodeURIComponent(ano)}&`;
+        if (liked) url += `liked=${encodeURIComponent(liked)}`;
 
         peliculasContainer.innerHTML = '<div class="text-center"><div class="spinner-border text-light" role="status"><span class="visually-hidden">Cargando...</span></div></div>';
 
@@ -50,6 +53,7 @@ document.addEventListener('DOMContentLoaded', function() {
     filtroCategoria.addEventListener('change', cargarPeliculas);
     filtroNombre.addEventListener('input', cargarPeliculasDebounced);
     filtroAno.addEventListener('input', cargarPeliculasDebounced);
+    filtroLiked.addEventListener('change', cargarPeliculas);
 
     // Cargar las películas al inicio
     cargarPeliculas();

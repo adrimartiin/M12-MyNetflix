@@ -157,26 +157,29 @@ function InsertFilm() {
                 <form id="crearForm" style="display: flex; flex-direction: column; gap: 10px; align-items: center; width: 100%;"> 
                     <div style="display: flex; flex-direction: column; align-items: center; width: 100%;">
                         <label for="titulo">Título:</label>
-                        <input type="text" id="titulo" name="titulo" class="swal2-input" style="width: 85%; height: 35px; font-size: 16px;">
+                        <input type="text" id="titulo" name="titulo" class="swal2-input" style="width: 85%; height: 35px; font-size: 16px;" maxlength="100">
                     </div>
-                   <div style="display: flex; flex-direction: column; align-items: center; width: 100%;">
+                    <div style="display: flex; flex-direction: column; align-items: center; width: 100%;">
                         <label for="descripcion">Descripción:</label>
-                        <input type="text" id="descripcion" name="descripcion" class="swal2-input" style="width: 85%; height: 35px; font-size: 16px;">
+                        <input type="text" id="descripcion" name="descripcion" class="swal2-input" style="width: 85%; height: 35px; font-size: 16px;" maxlength="255">
                     </div>
-                    
                     <div style="display: flex; flex-direction: column; align-items: center; width: 100%;">
-                        <label for="precio">Director:</label>
-                        <input type="text" id="director" name="director" class="swal2-input" step="0.01" style="width: 85%; height: 35px; font-size: 16px;">
+                        <label for="director">Director:</label>
+                        <input type="text" id="director" name="director" class="swal2-input" style="width: 85%; height: 35px; font-size: 16px;" maxlength="100">
                     </div>
-                    
                     <div style="display: flex; flex-direction: column; align-items: center; width: 100%;">
-                        <label for="cantidad">Año:</label>
-                        <input type="number" id="year" name="year" class="swal2-input" style="width: 85%; height: 35px; font-size: 16px;">
+                        <label for="year">Año:</label>
+                        <input type="number" id="year" name="year" class="swal2-input" style="width: 85%; height: 35px; font-size: 16px;" min="1900" max="${new Date().getFullYear()}">
                     </div>
-
-                      <div style="display: flex; flex-direction: column; align-items: center; width: 100%;">
-                        <label for="cantidad">Imagen de la Película:</label>
-                        <input type="file" id="peli_img" name="peli_img" class="swal2-input" style="width: 85%; height: 35px; font-size: 16px;">
+                    <div style="display: flex; flex-direction: column; align-items: center; width: 100%;">
+                        <label for="categoria">Categoría:</label>
+                        <select id="categoria" name="categoria" class="swal2-input" style="width: 85%; height: 35px; font-size: 16px;">
+                            <!-- Las opciones de categoría se llenarán dinámicamente desde el servidor -->
+                        </select>
+                    </div>
+                    <div style="display: flex; flex-direction: column; align-items: center; width: 100%;">
+                        <label for="peli_img">Imagen de la Película:</label>
+                        <input type="file" id="peli_img" name="peli_img" class="swal2-input" style="width: 85%; height: 35px; font-size: 16px;" accept=".jpg,.jpeg,.png,.gif">
                     </div>
                 </form>
             `,
@@ -186,18 +189,62 @@ function InsertFilm() {
             customClass: {
                 popup: 'no-scroll-popup'
             },
+            didOpen: () => {
+                // Obtener las categorías desde el servidor y llenar el select
+                fetch('../procesos/get_categorias.php')
+                    .then(response => response.json())
+                    .then(categorias => {
+                        const selectCategoria = document.getElementById('categoria');
+                        selectCategoria.innerHTML = ''; // Limpiar el select antes de llenarlo
+                        categorias.forEach(categoria => {
+                            const option = document.createElement('option');
+                            option.value = categoria.id_categoria;
+                            option.textContent = categoria.nombre;
+                            selectCategoria.appendChild(option);
+                        });
+                    })
+                    .catch(error => console.error('Error al cargar categorías:', error));
+            },
             preConfirm: () => {
                 var formulario = document.getElementById('crearForm');
                 const formData = new FormData(formulario);
 
-                // validacion genérica para los campos
-                if (!formData.get('titulo') ||!formData.get('descripcion') || !formData.get('director') || !formData.get('year')) {
+                // Validaciones adicionales
+                const titulo = formData.get('titulo');
+                const descripcion = formData.get('descripcion');
+                const director = formData.get('director');
+                const year = formData.get('year');
+                const categoria = formData.get('categoria');
+                const imagen = document.getElementById('peli_img').files[0];
+
+                if (!titulo || !descripcion || !director || !year || !categoria) {
                     Swal.showValidationMessage('Todos los campos son obligatorios');
-                    return;
+                    return false;
+                }
+
+                if (!/^[a-zA-Z\s]+$/.test(director)) {
+                    Swal.showValidationMessage('El nombre del director solo debe contener letras y espacios');
+                    return false;
+                }
+
+                if (imagen) {
+                    const allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
+                    const fileExtension = imagen.name.split('.').pop().toLowerCase();
+                    const maxSize = 2 * 1024 * 1024; // 2MB
+
+                    if (!allowedExtensions.includes(fileExtension)) {
+                        Swal.showValidationMessage('El formato de la imagen no es válido');
+                        return false;
+                    }
+
+                    if (imagen.size > maxSize) {
+                        Swal.showValidationMessage('El tamaño de la imagen no debe exceder 2MB');
+                        return false;
+                    }
                 }
 
                 // Solicitud Ajax
-                fetch('../procesos/proc_insertFilms.php', {
+                return fetch('../procesos/proc_insertFilms.php', {
                     method: 'POST', // Método POST para enviar datos
                     body: formData // Enviar datos del formulario, incluyendo la imagen
                 })
@@ -225,13 +272,8 @@ function InsertFilm() {
                 .catch(error => {
                     console.error('Error:', error);
                 });
-                
             }
         });
-
-        // Elimina el scroll del popup
-        document.querySelector('.swal2-popup').style.overflow = 'hidden';
-
     }
 }
 
@@ -310,19 +352,25 @@ function Update(id) {
                         <input type="hidden" id="id" name="id" value="${film.id_peli}">
                         <div style="display: flex; flex-direction: column; align-items: center; width: 100%;">
                             <label for="titulo">Título:</label>
-                            <input type="text" id="titulo" name="titulo" class="swal2-input" value="${film.titulo}" style="width: 85%; height: 35px; font-size: 16px;">
+                            <input type="text" id="titulo" name="titulo" class="swal2-input" value="${film.titulo}" style="width: 85%; height: 35px; font-size: 16px;" maxlength="100">
                         </div>
                         <div style="display: flex; flex-direction: column; align-items: center; width: 100%;">
                             <label for="descripcion">Descripción:</label>
-                            <input type="text" id="descripcion" name="descripcion" class="swal2-input" value="${film.descripcion}" style="width: 85%; height: 35px; font-size: 16px;">
+                            <input type="text" id="descripcion" name="descripcion" class="swal2-input" value="${film.descripcion}" style="width: 85%; height: 35px; font-size: 16px;" maxlength="255">
                         </div>
                         <div style="display: flex; flex-direction: column; align-items: center; width: 100%;">
                             <label for="director">Director:</label>
-                            <input type="text" id="director" name="director" class="swal2-input" value="${film.director}" style="width: 85%; height: 35px; font-size: 16px;">
+                            <input type="text" id="director" name="director" class="swal2-input" value="${film.director}" style="width: 85%; height: 35px; font-size: 16px;" maxlength="100">
                         </div>
                         <div style="display: flex; flex-direction: column; align-items: center; width: 100%;">
                             <label for="year">Año:</label>
-                            <input type="number" id="year" name="year" class="swal2-input" value="${film.ano}" style="width: 85%; height: 35px; font-size: 16px;">
+                            <input type="number" id="year" name="year" class="swal2-input" value="${film.ano}" style="width: 85%; height: 35px; font-size: 16px;" min="1900" max="${new Date().getFullYear()}">
+                        </div>
+                        <div style="display: flex; flex-direction: column; align-items: center; width: 100%;">
+                            <label for="categoria">Categoría:</label>
+                            <select id="categoria" name="categoria" class="swal2-input" style="width: 85%; height: 35px; font-size: 16px;">
+                                <!-- Las opciones de categoría se llenarán dinámicamente desde el servidor -->
+                            </select>
                         </div>
                         <div style="display: flex; flex-direction: column; align-items: center; width: 100%;">
                             <label for="imagen_actual">Imagen Actual:</label>
@@ -331,20 +379,67 @@ function Update(id) {
                         </div>
                         <div style="display: flex; flex-direction: column; align-items: center; width: 100%;">
                             <label for="nueva_imagen">Nueva Imagen (opcional):</label>
-                            <input type="file" id="nueva_imagen" name="nueva_imagen" class="swal2-input" style="width: 85%; height: 35px; font-size: 16px;">
+                            <input type="file" id="nueva_imagen" name="nueva_imagen" class="swal2-input" style="width: 85%; height: 35px; font-size: 16px;" accept=".jpg,.jpeg,.png,.gif">
                         </div>
                     </form>
                 `,
                 showCancelButton: true,
                 confirmButtonText: 'Actualizar',
                 cancelButtonText: 'Cancelar',
+                didOpen: () => {
+                    // Obtener las categorías desde el servidor y llenar el select
+                    fetch('../procesos/get_categorias.php')
+                        .then(response => response.json())
+                        .then(categorias => {
+                            const selectCategoria = document.getElementById('categoria');
+                            selectCategoria.innerHTML = ''; // Limpiar el select antes de llenarlo
+                            categorias.forEach(categoria => {
+                                const option = document.createElement('option');
+                                option.value = categoria.id_categoria;
+                                option.textContent = categoria.nombre;
+                                if (categoria.id_categoria === film.id_categoria) {
+                                    option.selected = true;
+                                }
+                                selectCategoria.appendChild(option);
+                            });
+                        })
+                        .catch(error => console.error('Error al cargar categorías:', error));
+                },
                 preConfirm: () => {
                     const formData = new FormData(document.getElementById('editarForm'));
                     
-                    // Validación de campos
-                    if (!formData.get('titulo') || !formData.get('descripcion') || !formData.get('director') || !formData.get('year')) {
+                    // Validaciones de campos
+                    const titulo = formData.get('titulo');
+                    const descripcion = formData.get('descripcion');
+                    const director = formData.get('director');
+                    const year = formData.get('year');
+                    const categoria = formData.get('categoria');
+                    const imagen = document.getElementById('nueva_imagen').files[0];
+
+                    if (!titulo || !descripcion || !director || !year || !categoria) {
                         Swal.showValidationMessage('Todos los campos son obligatorios');
-                        return;
+                        return false;
+                    }
+
+                    if (!/^[a-zA-Z\s]+$/.test(director)) {
+                        Swal.showValidationMessage('El nombre del director solo debe contener letras y espacios');
+                        return false;
+                    }
+
+                    if (imagen) {
+                        const allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
+                        const fileExtension = imagen.name.split('.').pop().toLowerCase();
+                        const maxSize = 2 * 1024 * 1024; // 2MB
+
+                        if (!allowedExtensions.includes(fileExtension)) {
+                            Swal.showValidationMessage('El formato de la imagen no es válido');
+                            return false;
+                        }
+
+                        if (imagen.size > maxSize) {
+                            Swal.showValidationMessage('El tamaño de la imagen no debe exceder 2MB');
+                            return false;
+                        }
                     }
 
                     return fetch('../procesos/proc_updateFilm.php', {

@@ -8,6 +8,7 @@ $usuarioId = isset($_SESSION['id_usuario']) ? $_SESSION['id_usuario'] : null;
 $categoria = isset($_GET['categoria']) ? $_GET['categoria'] : '';
 $nombre = isset($_GET['nombre']) ? $_GET['nombre'] : '';
 $ano = isset($_GET['ano']) ? $_GET['ano'] : '';
+$liked = isset($_GET['liked']) ? $_GET['liked'] : '';
 
 // Crear la consulta base
 $query = "SELECT p.id_peli, p.titulo, p.descripcion, p.director, p.ano, p.imagen, p.likes, c.nombre AS categoria,
@@ -25,6 +26,11 @@ if ($nombre) {
 }
 if ($ano) {
     $query .= " AND p.ano = :ano";
+}
+if ($liked === 'true') {
+    $query .= " AND (SELECT COUNT(*) FROM tbl_likes WHERE id_usuario = :usuarioId AND id_pelicula = p.id_peli) > 0";
+} elseif ($liked === 'false') {
+    $query .= " AND (SELECT COUNT(*) FROM tbl_likes WHERE id_usuario = :usuarioId AND id_pelicula = p.id_peli) = 0";
 }
 
 // Preparar la consulta

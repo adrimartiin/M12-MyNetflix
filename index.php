@@ -49,6 +49,7 @@ session_start();
             <span class="visually-hidden">Next</span>
         </button>
     </div>
+    <?php if (isset($_SESSION['nombre_usuario'])): ?>
     <div class="container mt-4">
     <div class="filtros">
         <select id="filtroCategoria" class="form-select">
@@ -64,7 +65,14 @@ session_start();
 
         <input type="text" id="filtroNombre" class="form-control" placeholder="Buscar por nombre de película">
         <input type="number" id="filtroAno" class="form-control" placeholder="Filtrar por año" min="1900" max="2024">
-    </div>
+        <select id="filtroLiked" class="form-select">
+            <option value="">Filtrar por Like</option>
+            <option value="true">Con Like</option>
+            <option value="false">Sin Like</option>
+        </select>
+    </div>        
+    <?php endif; ?>
+
 <div id="peliculas-container" class="container mt-4">
 </div>
     </div>
