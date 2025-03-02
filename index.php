@@ -49,10 +49,9 @@ session_start();
             <span class="visually-hidden">Next</span>
         </button>
     </div>
-    <?php if (isset($_SESSION['nombre_usuario'])): ?>
     <div class="container mt-4">
     <div class="filtros">
-        <select id="filtroCategoria" class="form-select">
+        <select id="filtroCategoria" class="form-select" <?php echo isset($_SESSION['nombre_usuario']) ? '' : 'disabled'; ?>>
             <option value="">Filtrar por Categoría</option>
             <?php
             require_once './bd/conexion.php';
@@ -63,18 +62,16 @@ session_start();
             ?>
         </select>
 
-        <input type="text" id="filtroNombre" class="form-control" placeholder="Buscar por nombre de película">
-        <input type="number" id="filtroAno" class="form-control" placeholder="Filtrar por año" min="1900" max="2024">
-        <select id="filtroLiked" class="form-select">
+        <input type="text" id="filtroNombre" class="form-control" placeholder="Buscar por nombre de película" <?php echo isset($_SESSION['nombre_usuario']) ? '' : 'disabled'; ?>>
+        <input type="number" id="filtroAno" class="form-control" placeholder="Filtrar por año" min="1900" max="2024" <?php echo isset($_SESSION['nombre_usuario']) ? '' : 'disabled'; ?>>
+        <select id="filtroLiked" class="form-select" <?php echo isset($_SESSION['nombre_usuario']) ? '' : 'disabled'; ?>>
             <option value="">Filtrar por Like</option>
             <option value="true">Con Like</option>
             <option value="false">Sin Like</option>
         </select>
-    </div>        
-    <?php endif; ?>
-
-<div id="peliculas-container" class="container mt-4">
-</div>
+    </div>
+    </div>
+    <div id="peliculas-container" class="container mt-4">
     </div>
     <div class="modal fade" id="peliculaModal" tabindex="-1" aria-labelledby="peliculaModalLabel" aria-hidden="true">
       <div class="modal-dialog">

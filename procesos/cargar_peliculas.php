@@ -11,11 +11,16 @@ $ano = isset($_GET['ano']) ? $_GET['ano'] : '';
 $liked = isset($_GET['liked']) ? $_GET['liked'] : '';
 
 // Crear la consulta base
-$query = "SELECT p.id_peli, p.titulo, p.descripcion, p.director, p.ano, p.imagen, p.likes, c.nombre AS categoria,
-          (SELECT COUNT(*) FROM tbl_likes WHERE id_usuario = :usuarioId AND id_pelicula = p.id_peli) AS usuarioHaDadoLike
-          FROM tbl_peliculas p
-          JOIN tbl_categorias c ON p.id_categoria = c.id_categoria
-          WHERE 1=1";
+$query = "SELECT p.id_peli, p.titulo, p.descripcion, p.director, p.ano, p.imagen, p.likes, c.nombre AS categoria";
+
+// Solo incluir el conteo de likes si el usuario está autenticado
+if ($usuarioId) {
+    $query .= ", (SELECT COUNT(*) FROM tbl_likes WHERE id_usuario = :usuarioId AND id_pelicula = p.id_peli) AS usuarioHaDadoLike";
+}
+
+$query .= " FROM tbl_peliculas p
+            JOIN tbl_categorias c ON p.id_categoria = c.id_categoria
+            WHERE 1=1";
 
 // Agregar condiciones según los filtros seleccionados
 if ($categoria) {
@@ -27,17 +32,23 @@ if ($nombre) {
 if ($ano) {
     $query .= " AND p.ano = :ano";
 }
-if ($liked === 'true') {
-    $query .= " AND (SELECT COUNT(*) FROM tbl_likes WHERE id_usuario = :usuarioId AND id_pelicula = p.id_peli) > 0";
-} elseif ($liked === 'false') {
-    $query .= " AND (SELECT COUNT(*) FROM tbl_likes WHERE id_usuario = :usuarioId AND id_pelicula = p.id_peli) = 0";
+
+// Solo aplicar el filtro de "like" si el usuario está autenticado
+if ($usuarioId) {
+    if ($liked === 'true') {
+        $query .= " AND (SELECT COUNT(*) FROM tbl_likes WHERE id_usuario = :usuarioId AND id_pelicula = p.id_peli) > 0";
+    } elseif ($liked === 'false') {
+        $query .= " AND (SELECT COUNT(*) FROM tbl_likes WHERE id_usuario = :usuarioId AND id_pelicula = p.id_peli) = 0";
+    }
 }
 
 // Preparar la consulta
 $stmt = $conexion->prepare($query);
 
 // Vincular los parámetros a los valores
-$stmt->bindParam(':usuarioId', $usuarioId, PDO::PARAM_INT);
+if ($usuarioId) {
+    $stmt->bindParam(':usuarioId', $usuarioId, PDO::PARAM_INT);
+}
 
 if ($categoria) {
     $stmt->bindParam(':categoria', $categoria, PDO::PARAM_STR);
@@ -77,7 +88,10 @@ foreach ($peliculasPorCategoria as $categoria => $peliculas) {
         $contenidoHTML .= 'data-ano="' . htmlspecialchars($pelicula['ano']) . '" ';
         $contenidoHTML .= 'data-likes="' . htmlspecialchars($pelicula['likes']) . '" ';
         $contenidoHTML .= 'data-id="' . htmlspecialchars($pelicula['id_peli']) . '" ';
-        $contenidoHTML .= 'data-liked="' . ($pelicula['usuarioHaDadoLike'] ? 'true' : 'false') . '">';
+        if ($usuarioId) {
+            $contenidoHTML .= 'data-liked="' . ($pelicula['usuarioHaDadoLike'] ? 'true' : 'false') . '"';
+        }
+        $contenidoHTML .= '>';
         $contenidoHTML .= '</div>';
     }
 

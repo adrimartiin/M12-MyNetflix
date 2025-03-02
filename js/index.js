@@ -48,13 +48,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Aplicar debounce a la búsqueda por nombre
     const cargarPeliculasDebounced = debounce(cargarPeliculas, 300);
+    if (!peliculasContainer) {
+        cargarPeliculas();
+    } else {
+        // Event listeners
+        filtroCategoria.addEventListener('change', cargarPeliculas);
+        filtroNombre.addEventListener('input', cargarPeliculasDebounced);
+        filtroAno.addEventListener('input', cargarPeliculasDebounced);
+        filtroLiked.addEventListener('change', cargarPeliculas);
 
-    // Event listeners
-    filtroCategoria.addEventListener('change', cargarPeliculas);
-    filtroNombre.addEventListener('input', cargarPeliculasDebounced);
-    filtroAno.addEventListener('input', cargarPeliculasDebounced);
-    filtroLiked.addEventListener('change', cargarPeliculas);
-
-    // Cargar las películas al inicio
-    cargarPeliculas();
+        // Cargar las películas al inicio
+        cargarPeliculas();
+    }
 });
