@@ -1,13 +1,5 @@
 <?php
-  require_once './bd/conexion.php';
-  session_start();
-  if(!isset($_SESSION['nombre_usuario'])){
-    header('Location: ./procesos/logout.php');
-    exit;
-  } else if($_SESSION['rol_id'] == 1){
-    header('Location: ./private/indexAdmin.php');
-    exit;
-  }
+session_start();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -22,7 +14,7 @@
     <title>Gestión Usuarios</title>
 </head>
 
-<body>
+<body class="<?php echo isset($_SESSION['nombre_usuario']) ? 'logged-in' : ''; ?>">
     <nav class="navbar navbar-expand-lg bg-dark nav-fixed">
         <div class="container-fluid">
             <a class="navbar-brand text-white" href="#"><img src="./img/logo.png" alt="Logo"></a>
@@ -30,7 +22,7 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
-            <?php
+                <?php
                 if (isset($_SESSION['nombre_usuario'])) {
                     echo '<div class="d-flex">
                             <a class="btn-login text-decoration-none" href="./procesos/logout.php">Cerrar sesión</a>
@@ -40,7 +32,7 @@
                         <a class="btn-login text-decoration-none" href="./login.php">Iniciar sesión</a>
                     </div>';
                 }
-            ?>
+                ?>
             </div>
         </div>
     </nav>
@@ -57,35 +49,58 @@
             <span class="visually-hidden">Next</span>
         </button>
     </div>
-    <!-- Contenedor principal -->
+    <?php if (isset($_SESSION['nombre_usuario'])): ?>
     <div class="container mt-4">
-        <div class="row">
-            <!-- Primer div -->
-            <div class="col-12 p-3 mb-5 bg-light border rounded peliculas-div">
-                <h5>Div 1</h5>
-                <p>Contenido del primer div.</p>
-            </div>
-        </div>
+    <div class="filtros">
+        <select id="filtroCategoria" class="form-select">
+            <option value="">Filtrar por Categoría</option>
+            <?php
+            require_once './bd/conexion.php';
+            $stmt = $conexion->query("SELECT nombre FROM tbl_categorias ORDER BY nombre");
+            while ($categoria = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                echo '<option value="' . htmlspecialchars($categoria['nombre']) . '">' . htmlspecialchars($categoria['nombre']) . '</option>';
+            }
+            ?>
+        </select>
 
-        <div class="row">
-            <!-- Primer div -->
-            <div class="col-12 p-3 mb-5 bg-light border rounded peliculas-div">
-                <h5>Div 1</h5>
-                <p>Contenido del primer div.</p>
-            </div>
-        </div>
-        <div class="row">
-            <!-- Primer div -->
-            <div class="col-12 p-3 mb-5 bg-light border rounded peliculas-div">
-                <h5>Div 1</h5>
-                <p>Contenido del primer div.</p>
-            </div>
-        </div>
+        <input type="text" id="filtroNombre" class="form-control" placeholder="Buscar por nombre de película">
+        <input type="number" id="filtroAno" class="form-control" placeholder="Filtrar por año" min="1900" max="2024">
+        <select id="filtroLiked" class="form-select">
+            <option value="">Filtrar por Like</option>
+            <option value="true">Con Like</option>
+            <option value="false">Sin Like</option>
+        </select>
+    </div>        
+    <?php endif; ?>
 
+<div id="peliculas-container" class="container mt-4">
+</div>
     </div>
-    <script src="js/carrusel.js"></script>
-    <script src="js/sweetalert.js"></script> 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <div class="modal fade" id="peliculaModal" tabindex="-1" aria-labelledby="peliculaModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="peliculaModalLabel"></h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <p id="modalDescripcion"></p>
+            <p><strong>Director:</strong> <span id="modalDirector"></span></p>
+            <p><strong>Año:</strong> <span id="modalAno"></span></p>
+            <p><strong>Likes:</strong> <span id="modalLikes"></span></p>
+            <button id="likeButton" class="btn btn-primary">
+                <i class="fa-regular fa-heart" id="likeIcon"></i> <span id="likeButtonText">Dar Like</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
 </body>
+</html>    
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<script src="js/sweetalert.js"></script>
+<script src="js/peliculas_inicio.js"></script>
+<script src="js/index.js"></script>
+<script src="js/carrusel.js"></script>
+<script src="js/scroll.js"></script>
 
-</html>

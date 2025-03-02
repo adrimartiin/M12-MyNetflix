@@ -5,6 +5,7 @@ $titulo = $_POST['titulo'];
 $descripcion = $_POST['descripcion'];
 $director = $_POST['director'];
 $yearFilm = $_POST['year'];
+$categoria = $_POST['categoria'];
 
 // Inicializar variable para la imagen
 $img = "default.png"; // Imagen por defecto en caso de no subir una
@@ -48,14 +49,15 @@ if (!empty($_FILES['peli_img']['name'])) {
 
 try {
     // Insertar datos en la base de datos, incluyendo el nombre de la imagen
-    $query = "INSERT INTO tbl_peliculas (titulo, descripcion, director, ano, imagen) VALUES
-    (:titulo, :descripcion, :director, :yearFilm, :img)";
+    $query = "INSERT INTO tbl_peliculas (titulo, descripcion, director, ano, imagen, id_categoria) VALUES
+    (:titulo, :descripcion, :director, :yearFilm, :img, :categoria)";
     $stmt = $conexion->prepare($query);
     $stmt->bindParam(':titulo', $titulo);
     $stmt->bindParam(':descripcion', $descripcion);
     $stmt->bindParam(':director', $director);
     $stmt->bindParam(':yearFilm', $yearFilm);
     $stmt->bindParam(':img', $img);
+    $stmt->bindParam(':categoria', $categoria);
     $stmt->execute();
 
 } catch (PDOException $e) {

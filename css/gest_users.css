@@ -3,6 +3,7 @@ body {
     margin: 0;
     background-color: #151414 !important;
     font-family: Arial, sans-serif;
+    width: 100%;
 }
 
 .navbar {
@@ -158,4 +159,290 @@ table {
 .btn-delete:hover {
     background-color: #FF0A16;
     border-color: #fff;
+}
+
+/* Estilos para navbar responsive */
+.navbar-toggler {
+    border: none;
+    color: white;
+}
+
+.navbar-toggler:focus {
+    box-shadow: none;
+}
+
+.dropdown-menu {
+    min-width: 250px;
+    background-color: #151414;
+    border: 1px solid #333;
+}
+
+.dropdown-menu .form-control {
+    background-color: #333;
+    border: none;
+    color: white;
+}
+
+.dropdown-menu .form-label {
+    color: white;
+}
+
+/* Estilos para tabla responsive */
+.table-responsive {
+    margin: 20px;
+    overflow-x: auto;
+}
+
+.mitabla {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    color: #fff;
+}
+
+.table_head {
+    background-color: #1a1a1a;
+}
+
+.table_head th {
+    padding: 15px;
+    font-weight: 500;
+    border-bottom: 2px solid #333;
+}
+
+.table_body {
+    background-color: #151414;
+}
+
+.table_body tr {
+    border-bottom: 1px solid #333;
+    transition: background-color 0.3s;
+}
+
+.table_body tr:hover {
+    background-color: #1f1f1f;
+}
+
+.table_body td {
+    padding: 12px 15px;
+    vertical-align: middle;
+}
+
+/* Ajustes específicos para columnas */
+.mitabla th:first-child,
+.mitabla td:first-child {
+    padding-left: 20px;
+}
+
+.mitabla th:last-child,
+.mitabla td:last-child {
+    padding-right: 20px;
+    text-align: center;
+}
+
+/* Ajustes para los botones de acción */
+.action-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+.btn-icon {
+    background: none;
+    border: none;
+    padding: 8px;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.btn-icon:hover {
+    transform: scale(1.1);
+}
+
+.btn-icon.edit {
+    color: white;
+}
+
+.btn-icon.delete {
+    color: #f44336;
+}
+
+/* Ajustes responsive */
+@media (max-width: 768px) {
+    .table-responsive {
+        margin: 10px;
+    }
+
+    .mitabla {
+        font-size: 14px;
+        table-layout: fixed;
+    }
+
+    /* Ocultar columnas de descripción y likes en móvil */
+    .hide-mobile {
+        display: none !important;
+    }
+
+    /* Redistribuir el espacio entre las columnas visibles */
+    .mitabla th,
+    .mitabla td {
+        padding: 8px 4px;
+    }
+
+    /* Ajustar anchos de columnas visibles y corregir selectores */
+    .mitabla th:first-child,
+    .mitabla td:first-child { /* Título */
+        width: 50%;
+    }
+    
+    /* Ajustado para que coincida con Director después de ocultar Descripción */
+    .mitabla th:nth-child(3),
+    .mitabla td:nth-child(3) { /* Director */
+        width: 30%;
+        display: table-cell; /* Forzar visualización */
+    }
+    
+    /* Ajustado para que coincida con Año */
+    .mitabla th:nth-child(4),
+    .mitabla td:nth-child(4) { /* Año */
+        width: 15%;
+        display: table-cell; /* Forzar visualización */
+    }
+    
+    /* Ajustado para Acciones */
+    .mitabla th:last-child,
+    .mitabla td:last-child { /* Acciones */
+        width: 50%;
+        text-align: center;
+        display: table-cell; /* Forzar visualización */
+    }
+
+    /* Ocultar explícitamente las columnas que no queremos ver */
+    .mitabla th:nth-child(2),
+    .mitabla td:nth-child(2), /* Descripción */
+    .mitabla th:nth-child(3),
+    .mitabla td:nth-child(3), /* Descripción */
+    .mitabla th:nth-child(5),
+    .mitabla td:nth-child(5) { /* Likes */
+        display: none !important;
+    }
+
+    /* Ajustar botones en columna de acciones */
+    .btn-edit,
+    .btn-delete {
+        padding: 5px 8px;
+        font-size: 12px;
+        margin: 2px;
+    }
+}
+
+@media (max-width: 576px) {
+    .mitabla {
+        font-size: 13px;
+    }
+
+    .mitabla th,
+    .mitabla td {
+        padding: 6px 3px;
+    }
+
+    /* Ajustar anchos para pantallas muy pequeñas */
+    .mitabla th:first-child,
+    .mitabla td:first-child { /* Título */
+        width: 50%;
+        text-align: center;
+    }
+    
+    .mitabla th:nth-child(3),
+    .mitabla td:nth-child(3) { /* Director */
+        width: 35%;
+    }
+    
+    .mitabla th:nth-child(4),
+    .mitabla td:nth-child(4) { /* Año */
+        width: 15%;
+    }
+    
+    .mitabla th:last-child,
+    .mitabla td:last-child { /* Acciones */
+        width: 50%;
+    }
+}
+
+/* Estilos para la paginación */
+.pagination-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 30px 0;
+    gap: 8px;
+    padding: 15px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 50px;
+    backdrop-filter: blur(5px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    max-width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.pagination-button {
+    background: transparent;
+    border: 2px solid rgba(219, 32, 44, 0.5);
+    color: #fff;
+    min-width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    padding: 0;
+    font-size: 14px;
+}
+
+.pagination-button:hover:not(:disabled) {
+    background-color: #DB202C;
+    border-color: #DB202C;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(219, 32, 44, 0.4);
+}
+
+.pagination-button.active {
+    background-color: #DB202C;
+    border-color: #DB202C;
+    box-shadow: 0 0 15px rgba(219, 32, 44, 0.6);
+}
+
+.pagination-button:disabled {
+    background-color: transparent;
+    border-color: rgba(255, 255, 255, 0.1);
+    cursor: not-allowed;
+    opacity: 0.3;
+}
+
+.pagination-button i {
+    font-size: 12px;
+}
+
+/* Separador de paginación */
+.pagination-separator {
+    color: rgba(255, 255, 255, 0.5);
+    margin: 0 5px;
+}
+
+@media (max-width: 576px) {
+    .pagination-container {
+        padding: 10px;
+        gap: 5px;
+        border-radius: 25px;
+    }
+
+    .pagination-button {
+        min-width: 35px;
+        height: 35px;
+        font-size: 12px;
+    }
 }

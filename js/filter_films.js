@@ -24,7 +24,21 @@ document.addEventListener('DOMContentLoaded', function() {
                 return response.json();
             })
             .then(films => {
-                actualizarTabla(films);
+                totalItems = films.length; // Actualizar el total de items
+                const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
+                
+                // Asegurarse de que la página actual es válida para los resultados filtrados
+                if (currentPage > totalPages) {
+                    currentPage = totalPages || 1;
+                }
+                
+                // Paginar los resultados filtrados
+                const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+                const endIndex = startIndex + ITEMS_PER_PAGE;
+                const paginatedFilms = films.slice(startIndex, endIndex);
+                
+                actualizarTabla(paginatedFilms);
+                updatePagination(totalPages);
             })
             .catch(error => {
                 console.error('Error:', error);
@@ -44,13 +58,15 @@ document.addEventListener('DOMContentLoaded', function() {
         films.forEach(function(item) {
             tabla += `<tr>
                 <td>${item.titulo}</td>
-                <td>${item.descripcion}</td>
+                <td class="hide-mobile">${item.descripcion}</td>
                 <td>${item.director}</td>
                 <td>${item.ano}</td>
-                <td>${item.likes}</td>
+                <td class="hide-mobile">${item.likes}</td>
                 <td>
-                    <button type='button' class='btn btn-success' onclick='Update(${item.id_peli})'>Editar</button>
-                    <button type="button" class="btn btn-danger" onclick="Eliminar(${item.id_peli})">Eliminar</button>
+                    <div class="action-buttons">
+                        <i class="fas fa-edit icon-action" onclick='Update(${item.id_peli})'></i>
+                        <i class="fas fa-trash-alt icon-action" style="color: red;" onclick="Eliminar(${item.id_peli})"></i>
+                    </div>
                 </td>
             </tr>`;
         });

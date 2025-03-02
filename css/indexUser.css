@@ -3,28 +3,84 @@ body {
     margin: 0;
     background-color: #151414 !important;
     font-family: Arial, sans-serif;
+    color: white;
 }
-.peliculas-div {
-    height: 300px;  
+
+/* 🟥 Estilo para los contenedores de cada categoría */
+.categoria {
+    margin-bottom: 30px;
 }
-.nav-fixed{
-    position:fixed !important; 
-    top:0; 
-    left:0;
-    right:0; 
-    z-index:1001 !important;
+
+/* 🟦 Títulos de categorías */
+.categoria h3 {
+    margin-left: 10px;
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
 }
-#myCarousel {
-    padding-top: 100px;
-    height: 90vh; /* Ajusta la altura según necesites */
-    padding-top: 5%;
-  }
-  
-#myCarousel .carousel-inner,
-#myCarousel .carousel-item {
-height: 100%;
+
+/* 🟩 Contenedor del carrusel horizontal */
+.scroll-container {
+    display: flex;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 10px;
+    gap: 10px;
+    flex-direction: row;
+    scroll-behavior: smooth;
 }
-  
+
+/* 🔴 Elimina la barra de desplazamiento */
+.scroll-container::-webkit-scrollbar {
+    display: none;
+}
+
+/* 🟧 Cada película ocupa un espacio fijo */
+.pelicula {
+    flex: 0 0 auto;
+    width: 300px; /* Ajusta el tamaño de la imagen según sea necesario */
+    transition: transform 0.3s ease-in-out;
+    cursor: pointer;
+    overflow: hidden;
+    height: 150px;
+}
+
+.pelicula img {
+    width: 100%;
+}
+
+/* 🟨 Efecto al pasar el mouse */
+.pelicula:hover {
+    transform: scale(1.1);
+}
+
+/* 🟪 Botones de desplazamiento */
+.carrusel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 10;
+    transition: 0.3s;
+}
+
+.carrusel-btn:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.carrusel-btn-left {
+    left: 0;
+}
+
+.carrusel-btn-right {
+    right: 0;
+}
+
+/* 🟦 Botón de login */
 .btn-login {
     background-color: #151414;
     border: 1px solid #B5ADAD;
@@ -45,6 +101,52 @@ height: 100%;
     background-color: #555;
     transform: scale(0.98);
 }
+
+/* 🟩 Logo en la barra de navegación */
 .navbar-brand img {
     height: 50px;
 }
+
+/* Estilos para los filtros */
+.filtros {
+    display: flex;
+    gap: 20px;
+    margin: 20px 0;
+    align-items: center;
+    justify-content: center;
+}
+
+.filtros select,
+.filtros input {
+    background-color: #333333;
+    border: 1px solid #555;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    width: 250px;
+    font-size: 16px;
+}
+
+.filtros select:focus,
+.filtros input:focus {
+    outline: none;
+    border-color: #DB202C;
+    background-color: #454545;
+}
+
+.filtros select option {
+    background-color: #333333;
+    color: white;
+}
+
+.filtros input::placeholder {
+    color: #999;
+}
+
+.filtros input::-webkit-outer-spin-button,
+.filtros input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+

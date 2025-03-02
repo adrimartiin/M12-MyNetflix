@@ -10,12 +10,14 @@
     <title>Login</title>
 </head>
 <body class="vh-100 vw-100">
-    <div class="container-fluid d-flex justify-content-center align-items-center vh-100">
+    <div class="container-fluid d-flex justify-content-center align-items-center vh-100 login-container">
         <div class="row w-100">
-            <div class="col-6 d-flex justify-content-center align-items-center">
+            <!-- Logo -->
+            <div class="col-12 col-md-6 d-flex justify-content-center align-items-center login-logo">
                 <img src="./img/logo.png" alt="Logo" class="img-fluid">
             </div>
-            <div class="col-6 justify-content-center align-items-center d-flex">
+            <!-- Formulario de login -->
+            <div class="col-12 col-md-6 justify-content-center align-items-center d-flex">
                 <div style="width: 80%;">
                     <h3 class="text-center mb-4">Iniciar Sesión</h3>
                     <form action="./procesos/login_verificacion.php" method="post" id="formulario-login">
@@ -38,8 +40,12 @@
             </div>
         </div>
     </div>
+
     <script src="./js/login.js"></script>
     <script src="js/sweetalert.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="./js/responsive.js"></script>
+
 </body>
 </html>
